@@ -1,0 +1,102 @@
+﻿global using SFML.Audio;
+global using SFML.Graphics;
+global using SFML.Window;
+global using SFML.System;
+
+static class Program
+{
+    static string windowName = "Sloppar spelet";
+
+    public static Vector2u WindowSize = new(700, 1000);
+
+    static public List<GameObject> gameObjects = new();
+
+    static List<GameObject> buffer = new();
+
+    public static void AddToGameList(GameObject gameObject)
+    {
+        buffer.Add(gameObject);
+    }
+
+    public static void AddToGameList(GameObject[] gameObject)
+    {
+        buffer.AddRange(gameObject);
+    }
+
+    static void AddBuffer()
+    {
+        gameObjects.AddRange(buffer);
+        buffer.Clear();
+    }
+
+    static void SpawnObjects()
+    {
+        new SpaceShip();
+        new SpaceShip()
+        {
+            Tag = "slop",
+            moveSpeed = 0
+        };
+    }
+
+    static void UpdateGameObjects(float deltaTime)
+    {
+        for (int i = 0; i < gameObjects.Count; i++)
+        {
+            //först uppdatera alla värden
+            gameObjects[i].Update(deltaTime);
+        }
+
+        // tar bort alla objekt efter man har itererat så inte listan förstörs
+        gameObjects.RemoveAll(obj => obj.remove == true);
+    }
+
+    static void DrawGameObjects(RenderWindow window)
+    {
+        for (int i = 0; i < gameObjects.Count; i++)
+        {
+            //kollar så att objektet finns i skärmen innan den ritar det
+            if (gameObjects[i].IsInView()) gameObjects[i].Draw(window);
+        }
+    }
+
+
+    public static void Main()
+    {
+        SpriteDrawer.InitilizeAllSprites();
+
+        using (RenderWindow window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), windowName))
+        {
+            Clock clock = new Clock();
+            window.SetFramerateLimit(60);
+            window.Closed += (o, e) => window.Close();            //input debug
+            window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code);
+
+            SpawnObjects();
+
+            while (window.IsOpen)
+            {
+                window.DispatchEvents();
+                float deltaTime = clock.Restart().AsSeconds();
+                window.Clear();
+
+                UpdateGameObjects(deltaTime);
+                DrawGameObjects(window);
+
+                AddBuffer();
+
+                window.Display();
+            }
+        }
+    }
+
+    public static Vector2f Normalize(Vector2f vector)
+    {
+        float length = MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+
+        if (length == 0f)
+            return new Vector2f(0f, 0f);
+
+        return new Vector2f(vector.X / length, vector.Y / length);
+    }
+}
