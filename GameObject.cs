@@ -11,6 +11,7 @@ abstract class GameObject
         Program.AddToGameList(this);
     }
 
+
     //should be called in constructor
     protected void InitializeVariables(string spriteName, Vector2f position, Vector2f size, string tag)
     {
@@ -19,7 +20,6 @@ abstract class GameObject
         this.size = size;
         this.Tag = tag;
     }
-
 
     //här kommer kollision
     RectangleShape GetHitbox()
@@ -43,23 +43,24 @@ abstract class GameObject
 
     GameObject? IterateHitboxList(List<GameObject> list)
     {
-        for (int i = 0; i < Program.gameObjects.Count; i++)
+        for (int i = 0; i < list.Count; i++)
         {
             if (ReferenceEquals(list[i], this))
                 continue;
 
-            CollisionCheckBetweenGameObjects(list[i]);
+            if (CollisionCheckBetweenGameObjects(list[i]))
+                return list[i];
         }
         //om man inte träffade något så returnar den null
         return null;
     }
-   
+
     // returnar objektet som kollideras med
     public GameObject? GetCollidingObject()
     {
         return IterateHitboxList(Program.gameObjects);
     }
-   
+
     //returnar objektet som kollideras med och matcher taggen
     public GameObject? GetCollidingObject(string targetTag)
     {
@@ -69,7 +70,7 @@ abstract class GameObject
 
         return IterateHitboxList(CollisionList);
     }
-    
+
     //returnar objektet som kollideras med och matcher någon avtaggarna
     public GameObject? GetCollidingObject(string[] targetTags)
     {
@@ -83,8 +84,53 @@ abstract class GameObject
 
         return IterateHitboxList(CollisionList);
     }
+
+    public bool CollidingWithTag(string targetTag)
+    {
+        GameObject? gameObject = GetCollidingObject(targetTag);
+        if (gameObject != null)
+        {
+            string tag = gameObject.Tag;
+            if (tag == targetTag)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     //slut på kollision
 
+    void OutOfBoundsCheck(Vector2f velocity)
+    {
+        float borderMultiplier = 1.2f;
+
+        // tar bort objekt som är utanför skärman och kommer att åka iväg
+        if (position.X > (Program.WindowSize.X * borderMultiplier) + (size.X / 2) && velocity.X > 0)
+        {
+            remove = true;
+        }
+        if (position.X < -(size.X / 2) && velocity.X < 0)
+        {
+            remove = true;
+        }
+        if (position.Y < -(size.Y / 2) && velocity.Y < 0)
+        {
+            remove = true;
+        }
+        if (position.Y > (Program.WindowSize.Y * borderMultiplier) + (size.Y / 2) && velocity.Y > 0)
+        {
+            remove = true;
+        }
+    }
+
+    protected void Move(float deltaTime, Vector2f velocity)
+    {
+        Vector2f finalVelocityCalc = velocity * deltaTime;
+
+        position += finalVelocityCalc;
+
+        if (Program.Length(finalVelocityCalc) > 0) OutOfBoundsCheck(velocity);
+    }
 
     public bool IsInView()
     {
@@ -118,14 +164,7 @@ abstract class GameObject
         }
     }
 
-    protected void Move(float deltaTime, Vector2f velocity)
-    {
-        position += velocity * deltaTime;
-    }
-
     public abstract void Update(float deltaTime);
 
     public abstract void Draw(RenderWindow widnow);
-
-
 }

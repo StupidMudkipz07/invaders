@@ -34,6 +34,7 @@ static class Program
         new SpaceShip();
         new SpaceShip()
         {
+            position = new(350, 200),
             Tag = "slop",
             moveSpeed = 0
         };
@@ -45,7 +46,10 @@ static class Program
         {
             //först uppdatera alla värden
             gameObjects[i].Update(deltaTime);
+            // Console.Write(gameObjects);
         }
+
+        //   Console.Write("\n");
 
         // tar bort alla objekt efter man har itererat så inte listan förstörs
         gameObjects.RemoveAll(obj => obj.remove == true);
@@ -90,6 +94,7 @@ static class Program
         }
     }
 
+    //Returns the normalized vector
     public static Vector2f Normalize(Vector2f vector)
     {
         float length = MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
@@ -98,5 +103,11 @@ static class Program
             return new Vector2f(0f, 0f);
 
         return new Vector2f(vector.X / length, vector.Y / length);
+    }
+
+    //Returns the length of the vector
+    public static float Length(Vector2f vector)
+    {
+        return MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
     }
 }

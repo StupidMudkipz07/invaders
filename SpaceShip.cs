@@ -1,4 +1,4 @@
-class SpaceShip : GameObject
+class SpaceShip : GameObject, IDamageable, IKillable
 {
     public float moveSpeed = 500;
     public float health = 3;
@@ -12,6 +12,18 @@ class SpaceShip : GameObject
     {
         new Projectile(posistion, direction);
     }
+
+    public void OnTakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0) OnKill();
+    }
+
+    public void OnKill()
+    {
+        remove = true;
+    }
+
 
     public override void Update(float deltaTime)
     {
@@ -31,9 +43,9 @@ class SpaceShip : GameObject
             Shoot(position, new(0, -1));
         }
 
-        if (GetCollidingObject() != null)
+        if (CollidingWithTag("slop"))
         {
-            System.Console.WriteLine(GetCollidingObject().Tag);
+            System.Console.WriteLine("träffade slop");
         }
 
         // viktigt att normalisera vector
@@ -42,6 +54,6 @@ class SpaceShip : GameObject
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite ?? throw new InvalidOperationException("The ship sprite has not been initialized."), size, window);
+        DrawObject(sprite, size, window);
     }
 }

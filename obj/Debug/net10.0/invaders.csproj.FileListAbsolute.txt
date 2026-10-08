@@ -77,3 +77,4 @@ C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug\net10.0\invaders.genruntimeconfig.cache
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug\net10.0\ref\invaders.dll
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\kallo.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug\net10.0\invaders.sourcelink.json
