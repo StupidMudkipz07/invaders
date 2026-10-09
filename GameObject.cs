@@ -11,7 +11,6 @@ abstract class GameObject
         Program.AddToGameList(this);
     }
 
-
     //should be called in constructor
     protected void InitializeVariables(string spriteName, Vector2f position, Vector2f size, string tag)
     {
@@ -98,9 +97,11 @@ abstract class GameObject
         }
         return false;
     }
+
+    
     //slut på kollision
 
-    void OutOfBoundsCheck(Vector2f velocity)
+    protected void OutOfBoundsCheck(Vector2f velocity)
     {
         float borderMultiplier = 1.2f;
 
@@ -144,9 +145,8 @@ abstract class GameObject
         else return true;
     }
 
-    protected void DrawObject(Sprite sprite, Vector2f size, RenderWindow window)
+    void DebugDraw(RenderWindow window)
     {
-        SpriteDrawer.DrawSprite(sprite, position, size, window);
 
         if (KeyboardHandler.IsKeyDown(Keyboard.Key.LShift))
         {
@@ -162,6 +162,19 @@ abstract class GameObject
             window.Draw(shape);
             window.Draw(point);
         }
+    }
+
+    protected void DrawObject(Sprite sprite, Vector2f size, RenderWindow window)
+    {
+        SpriteDrawer.DrawSprite(sprite, position, size, window);
+        DebugDraw(window);
+    }
+
+    protected void DrawObject(Sprite sprite, Vector2f size, RenderWindow window, float rotation)
+    {
+        SpriteDrawer.DrawSprite(sprite, position, size, window, rotation);
+
+        DebugDraw(window);
     }
 
     public abstract void Update(float deltaTime);

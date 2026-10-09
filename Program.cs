@@ -32,12 +32,7 @@ static class Program
     static void SpawnObjects()
     {
         new SpaceShip();
-        new SpaceShip()
-        {
-            position = new(350, 200),
-            Tag = "slop",
-            moveSpeed = 0
-        };
+        new EnemyShip();
     }
 
     static void UpdateGameObjects(float deltaTime)
@@ -64,7 +59,6 @@ static class Program
         }
     }
 
-
     public static void Main()
     {
         SpriteDrawer.InitilizeAllSprites();
@@ -82,7 +76,7 @@ static class Program
             {
                 window.DispatchEvents();
                 float deltaTime = clock.Restart().AsSeconds();
-                window.Clear();
+                window.Clear(new(10, 10, 10));
 
                 UpdateGameObjects(deltaTime);
                 DrawGameObjects(window);
@@ -110,4 +104,29 @@ static class Program
     {
         return MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
     }
+
+    public static float VectorToAngle(Vector2f rotation)
+    {
+        return MathF.Atan2(rotation.Y, rotation.X) * 180f / MathF.PI;
+    }
+
+    public static Vector2f AngleToVector(float angle)
+    {
+        //matte slop
+        float radians = angle * MathF.PI / 180f;
+        Vector2f rotatedVector = new(MathF.Cos(radians), MathF.Sin(radians));
+        return rotatedVector;
+    }
+
+    public static class GlobalTags
+    { //maybe have an algoritm that makes these strings
+        public const string Player = "sifhoigeohäepj";
+
+        public const string Enemy = "fgafgzdfvaetra";
+
+        public const string Neutral = "23ih423kj4";
+
+        public const string Asteroid = "231231231223";
+    }
 }
+

@@ -1,29 +1,26 @@
-class SpaceShip : GameObject, IDamageable, IKillable
+class SpaceShip : GameObject, IDamageable
 {
     public float moveSpeed = 500;
     public float health = 3;
 
     public SpaceShip()
     {
-        InitializeVariables("kallo", new(350, 700), new(130, 130), "player");
+        InitializeVariables("kallo", new(350, 700), new(130, 130), Program.GlobalTags.Player);
     }
 
     void Shoot(Vector2f posistion, Vector2f direction)
     {
-        new Projectile(posistion, direction);
+        new Projectile(posistion, direction)
+        {
+            Tag = Program.GlobalTags.Neutral
+        };
     }
 
     public void OnTakeDamage(float damage)
     {
         health -= damage;
-        if (health <= 0) OnKill();
+        if (health <= 0) remove = true;
     }
-
-    public void OnKill()
-    {
-        remove = true;
-    }
-
 
     public override void Update(float deltaTime)
     {
@@ -38,7 +35,7 @@ class SpaceShip : GameObject, IDamageable, IKillable
         if (KeyboardHandler.IsKeyDown(Keyboard.Key.W))
             direction.Y -= 1;
 
-        if (KeyboardHandler.IsKeyDown(Keyboard.Key.Space))
+        if (KeyboardHandler.WasKeyJustPressed(Keyboard.Key.Space))
         {
             Shoot(position, new(0, -1));
         }

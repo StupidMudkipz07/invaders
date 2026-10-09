@@ -36,6 +36,16 @@ class SpriteDrawer
         window.Draw(sprite);
     }
 
+    static public void DrawSprite(Sprite sprite, Vector2f position, Vector2f size, RenderWindow window, float angle)
+    {
+        sprite.Origin = new(sprite.Texture.Size.X / 2f, sprite.Texture.Size.Y / 2f);
+        sprite.Position = position;
+        sprite.Scale = new(size.X / sprite.Texture.Size.X, size.Y / sprite.Texture.Size.Y);
+        sprite.Rotation = angle;
+
+        window.Draw(sprite);
+    }
+
 
     /*
         //here is all the sprites used by an object stored
