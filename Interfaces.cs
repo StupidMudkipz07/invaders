@@ -3,7 +3,7 @@ interface IDamageable
     public void OnTakeDamage(float damage);
 }
 
-interface IKillable
+interface IVectorReturner
 {
-    public void OnKill();
+    public Vector2f MovePattern(Vector2f s);
 }

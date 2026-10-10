@@ -31,8 +31,13 @@ static class Program
 
     static void SpawnObjects()
     {
-        new SpaceShip();
-        new EnemyShip();
+        // InitializeVariables("kallo", new(350, 700), new(130, 130), Program.GlobalTags.Player);
+        //                                                                            lustig if sats👇👇👇
+        new SpaceShip("kallo", new(350, 800), new(140, 100), new Vector2f(0, 0), GlobalTags.Player, 500, 3, true){OpposingTag = GlobalTags.Enemy};
+        new SpaceShip("angel2", new(350, 100), new(150, 150), new Vector2f(Random.Shared.Next(2) == 0 ? -1 : 1, 1), GlobalTags.Enemy, 300, 3, false)
+        {
+            OpposingTag = GlobalTags.Player
+        };
     }
 
     static void UpdateGameObjects(float deltaTime)

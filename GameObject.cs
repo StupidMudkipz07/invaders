@@ -97,8 +97,6 @@ abstract class GameObject
         }
         return false;
     }
-
-    
     //slut på kollision
 
     protected void OutOfBoundsCheck(Vector2f velocity)
