@@ -78,6 +78,14 @@ C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug\net10.0\ref\invaders.dll
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\kallo.png
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\obj\Debug\net10.0\invaders.sourcelink.json
-C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\angel1.png
-C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\angel2.png
-C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\angel3.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\archangel.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\seraphim.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\IR klubb affisch final.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\köttigbild.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\data\playerData.json
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\data\archangelData.json
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\data\seraphimData.json
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\data\virtueData.json
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\virtue.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\cross.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\projectile.png

@@ -51,7 +51,7 @@ public static class KeyboardHandler
 	/// </summary>
 	/// <param name="key">The key to check.</param>
 	/// <returns>true if the key is down on the current frame; else, false.</returns>
-	public static bool WasKeyJustPressed(Keyboard.Key key)
+	public static bool IsKeyPressed(Keyboard.Key key)
 	{
 		if (IsKeyDown(key) && !keyStates[key].isPressedPrevious)
 		{
@@ -68,7 +68,7 @@ public static class KeyboardHandler
 	/// </summary>
 	/// <param name="key">The key to check.</param>
 	/// <returns>true if the key is up on the current frame; else, false.</returns>
-	public static bool WasKeyJustReleased(Keyboard.Key key)
+	public static bool IsKeyReleased(Keyboard.Key key)
 	{
 		if (IsKeyUp(key) && !keyStates[key].isPressedPrevious)
 		{

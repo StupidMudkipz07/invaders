@@ -2,6 +2,8 @@ abstract class GameObject
 {
     public Vector2f position;
     public Vector2f size;
+    public Vector2f direction;
+    public Vector2f facingDirection;
     protected Sprite? sprite;
     public bool remove = false;
     public string Tag = string.Empty;
@@ -18,6 +20,7 @@ abstract class GameObject
         this.position = position;
         this.size = size;
         this.Tag = tag;
+        facingDirection = new(0, 0);
     }
 
     //här kommer kollision
@@ -164,7 +167,7 @@ abstract class GameObject
 
     protected void DrawObject(Sprite sprite, Vector2f size, RenderWindow window)
     {
-        SpriteDrawer.DrawSprite(sprite, position, size, window);
+        SpriteDrawer.DrawSprite(sprite, position, size, window, Program.VectorToAngle(facingDirection));
         DebugDraw(window);
     }
 

@@ -2,26 +2,50 @@ class SpaceShip : GameObject, IDamageable
 {
     public float moveSpeed;
     public float health;
-    public string OpposingTag;         
-    Vector2f direction;
-    Vector2f facingDirection;
-    IVectorReturner arselTratt;
+    public float damage;
+    public string OpposingTag;
+    IMoveController moveController;
+    IShootable shootController;
 
-    public SpaceShip(string spriteName, Vector2f position, Vector2f size, Vector2f direction, string tag, float moveSpeed, float health, bool movePattern)
+    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
     {
-        // InitializeVariables("kallo", new(350, 700), new(130, 130), Program.GlobalTags.Player);
         InitializeVariables(spriteName, position, size, tag);
-        this.moveSpeed = moveSpeed;
-        this.health = health;
-        this.direction = direction;
-        if (movePattern) arselTratt = new PlayerMovePattern(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D);
-        else arselTratt = new EnemyMovePattern(this);
     }
 
-    void Shoot(Vector2f posistion, Vector2f direction)
+    public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout)
     {
-        new Projectile(posistion, direction, OpposingTag);
-        System.Console.WriteLine(OpposingTag);
+        SpaceShip player = new(stats.sprite, Program.GlobalTags.Player, startPosition, stats.size)
+        {
+            health = stats.health,
+            moveSpeed = stats.moveSpeed,
+            facingDirection = new(0, -1),
+            OpposingTag = Program.GlobalTags.Enemy
+        };
+        PlayerController playerController = new PlayerController(stats.shootCooldown, controlLayout, stats.size.X * 0.4f);
+
+        //player.moveController = new PlayerRotateController(controlLayout);
+        player.moveController = playerController;
+        player.shootController = playerController;
+
+        return player;
+    }
+
+    public static SpaceShip SpawnEnemy(SpaceShipData stats, Vector2f position)
+    {                //                             lustig if sats👇👇👇
+        Vector2f enemyDirection = new(Random.Shared.Next(2) == 0 ? -1 : 1, 1);
+        SpaceShip enemy = new(stats.sprite, Program.GlobalTags.Enemy, position, stats.size)
+        {
+            health = stats.health,
+            moveSpeed = stats.moveSpeed,
+            direction = enemyDirection,
+            facingDirection = enemyDirection,
+            OpposingTag = Program.GlobalTags.Player
+        };
+
+        enemy.moveController = new EnemyMoveController(enemy); ;
+        enemy.shootController = new EnemyShootController(stats.shootCooldown);
+
+        return enemy;
     }
 
     public void OnTakeDamage(float damage)
@@ -32,20 +56,19 @@ class SpaceShip : GameObject, IDamageable
 
     public override void Update(float deltaTime)
     {
-        if (KeyboardHandler.WasKeyJustPressed(Keyboard.Key.Space))
+        if (shootController.ShootRequirements())
         {
-            Shoot(position, new(0, -1));
+            shootController.Shoot(facingDirection, position, OpposingTag);
         }
 
-        direction = arselTratt.MovePattern(direction);
+        facingDirection = moveController.GetFacingDirection();
+        direction = moveController.GetMoveDirection();
+
         Move(deltaTime, Program.Normalize(direction) * moveSpeed);
     }
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite, size, window);
-
-        // enemy draw function
-        // DrawObject(sprite, size, window, Program.VectorToAngle(direction) - 90);
+        DrawObject(sprite, size, window, Program.VectorToAngle(facingDirection) + 90);
     }
 }

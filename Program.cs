@@ -2,12 +2,24 @@
 global using SFML.Graphics;
 global using SFML.Window;
 global using SFML.System;
+global using System.Text.Json.Serialization;
+global using System.Text.Json;
+
+using System.IO;
 
 static class Program
 {
     static string windowName = "Sloppar spelet";
 
-    public static Vector2u WindowSize = new(700, 1000);
+    static ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
+    static ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
+
+    static string playerDataFilePath = "data/playerData.json";
+    static string seraphimDataFilePath = "data/seraphimData.json";
+    static string viruteDataFilePath = "data/virtueData.json";
+    static string archangelDataFilePath = "data/archangelData.json";
+
+    public static Vector2u WindowSize = new(800, 1080);
 
     static public List<GameObject> gameObjects = new();
 
@@ -29,15 +41,27 @@ static class Program
         buffer.Clear();
     }
 
+    static void SpawnAngel(string dataFilepath)
+    {
+        SpaceShipData stats = new SpaceShipData(dataFilepath);
+        SpaceShip.SpawnEnemy(stats, new(WindowSize.X / 2, -stats.size.X / 2));
+    }
+
+    static void SpawnPlayer1()
+    {
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(WindowSize.X / 2, 700), player1Controls);
+    }
+
+    static void SpawnPlayer2()
+    {
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(WindowSize.X / 2, 700), player2Controls);
+    }
+
     static void SpawnObjects()
     {
-        // InitializeVariables("kallo", new(350, 700), new(130, 130), Program.GlobalTags.Player);
-        //                                                                            lustig if sats👇👇👇
-        new SpaceShip("kallo", new(350, 800), new(140, 100), new Vector2f(0, 0), GlobalTags.Player, 500, 3, true){OpposingTag = GlobalTags.Enemy};
-        new SpaceShip("angel2", new(350, 100), new(150, 150), new Vector2f(Random.Shared.Next(2) == 0 ? -1 : 1, 1), GlobalTags.Enemy, 300, 3, false)
-        {
-            OpposingTag = GlobalTags.Player
-        };
+        SpawnPlayer1();
+        SpawnPlayer2();
+        SpawnAngel(seraphimDataFilePath);
     }
 
     static void UpdateGameObjects(float deltaTime)
@@ -71,6 +95,16 @@ static class Program
         using (RenderWindow window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), windowName))
         {
             Clock clock = new Clock();
+            using Font fpsFont = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf"));
+            using Text fpsText = new("FPS: 0", fpsFont)
+            {
+                CharacterSize = 20,
+                FillColor = Color.White,
+                Position = new(10, 10)
+            };
+            float fpsElapsed = 0;
+            int fpsFrames = 0;
+
             window.SetFramerateLimit(60);
             window.Closed += (o, e) => window.Close();            //input debug
             window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code);
@@ -79,12 +113,23 @@ static class Program
 
             while (window.IsOpen)
             {
+
                 window.DispatchEvents();
                 float deltaTime = clock.Restart().AsSeconds();
                 window.Clear(new(10, 10, 10));
 
+                fpsElapsed += deltaTime;
+                fpsFrames++;
+                if (fpsElapsed >= 0.5f)
+                {
+                    fpsText.DisplayedString = $"FPS: {fpsFrames / fpsElapsed:0}";
+                    fpsElapsed = 0;
+                    fpsFrames = 0;
+                }
+
                 UpdateGameObjects(deltaTime);
                 DrawGameObjects(window);
+                window.Draw(fpsText);
 
                 AddBuffer();
 
@@ -105,10 +150,10 @@ static class Program
     }
 
     //Returns the length of the vector
-    public static float Length(Vector2f vector)
-    {
-        return MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-    }
+    public static float Length(Vector2f vector) => MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
+    
+    //returns the inverse of the vector
+    public static Vector2f Inverse(Vector2f vector) => new(vector.X * -1, vector.Y * -1);
 
     public static float VectorToAngle(Vector2f rotation)
     {
@@ -125,13 +170,12 @@ static class Program
 
     public static class GlobalTags
     { //maybe have an algoritm that makes these strings
-        public const string Player = "sifhoigeohäepj";
+        public const string Player = "1";
 
-        public const string Enemy = "fgafgzdfvaetra";
+        public const string Enemy = "2";
 
-        public const string Neutral = "23ih423kj4";
+        public const string Neutral = "sloppigt";
 
-        public const string Asteroid = "231231231223";
+        public const string Asteroid = "4";
     }
 }
-

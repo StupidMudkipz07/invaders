@@ -1,7 +1,6 @@
 class Projectile : GameObject
 {
     float moveSpeed = 800;
-    Vector2f direction;
     float damage = 1;
     string targetTag;
 
@@ -23,8 +22,9 @@ class Projectile : GameObject
     public Projectile(Vector2f position, Vector2f Direction, string targetTag)
     {
         direction = Direction;
-        InitializeVariables("kallo", position, new(40, 67), Program.GlobalTags.Neutral);
+        InitializeVariables("projectile", position, new(50, 50), Program.GlobalTags.Neutral);
         this.targetTag = targetTag;
+        facingDirection = direction;
     }
 
     public override void Update(float deltaTime)
@@ -37,6 +37,6 @@ class Projectile : GameObject
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite, size, window);
+        DrawObject(sprite, size, window, Program.VectorToAngle(direction)+90);
     }
 }

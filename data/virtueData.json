@@ -1,0 +1,11 @@
+{
+    "moveSpeed": 430,
+    "health": 4,
+    "shootCooldown": 9000,
+    "damage": 1,
+    "sprite": "virtue",
+    "size": {
+        "X": 110,
+        "Y": 110
+    }
+}

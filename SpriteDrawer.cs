@@ -28,14 +28,6 @@ class SpriteDrawer
         throw new KeyNotFoundException($"Hittade inte {spriteName} inuti sloppet: {spriteDirectory}.");
     }
 
-    static public void DrawSprite(Sprite sprite, Vector2f position, Vector2f size, RenderWindow window)
-    {
-        sprite.Origin = new(sprite.Texture.Size.X / 2f, sprite.Texture.Size.Y / 2f);
-        sprite.Position = position;
-        sprite.Scale = new(size.X / sprite.Texture.Size.X, size.Y / sprite.Texture.Size.Y);
-        window.Draw(sprite);
-    }
-
     static public void DrawSprite(Sprite sprite, Vector2f position, Vector2f size, RenderWindow window, float angle)
     {
         sprite.Origin = new(sprite.Texture.Size.X / 2f, sprite.Texture.Size.Y / 2f);

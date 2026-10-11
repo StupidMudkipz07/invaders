@@ -1,0 +1,11 @@
+{
+    "moveSpeed": 600,
+    "health": 3,
+    "shootCooldown": 340,
+    "damage": 1,
+    "sprite": "kallo",
+    "size": {
+        "X": 130,
+        "Y": 130
+    }
+}

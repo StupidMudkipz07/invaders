@@ -1,0 +1,11 @@
+{
+    "moveSpeed": 200,
+    "health": 14,
+    "shootCooldown": 800,
+    "damage": 1,
+    "sprite": "archangel",
+    "size": {
+        "X": 167,
+        "Y": 167
+    }
+}
