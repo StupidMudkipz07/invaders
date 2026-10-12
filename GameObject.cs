@@ -6,11 +6,11 @@ abstract class GameObject
     public Vector2f facingDirection;
     protected Sprite? sprite;
     public bool remove = false;
-    public string Tag = string.Empty;
+    public string tag = string.Empty;
 
     public GameObject()
     {
-        Program.AddToGameList(this);
+        Program.objectHandler.AddToGameList(this);
     }
 
     //should be called in constructor
@@ -19,7 +19,7 @@ abstract class GameObject
         sprite = SpriteDrawer.GetStaticSprite(spriteName);
         this.position = position;
         this.size = size;
-        this.Tag = tag;
+        this.tag = tag;
         facingDirection = new(0, 0);
     }
 
@@ -60,7 +60,7 @@ abstract class GameObject
     // returnar objektet som kollideras med
     public GameObject? GetCollidingObject()
     {
-        return IterateHitboxList(Program.gameObjects);
+        return IterateHitboxList(Program.objectHandler.GetAllGameObjects());
     }
 
     //returnar objektet som kollideras med och matcher taggen
@@ -68,7 +68,7 @@ abstract class GameObject
     {
         // goofy ass c# standard    
         //List<GameObject> CollisionList = [.. Program.gameObjects.Where(gameObject => gameObject.Tag == targetTag)];
-        List<GameObject> CollisionList = Program.gameObjects.Where(gameObject => gameObject.Tag == targetTag).ToList();
+        List<GameObject> CollisionList = Program.objectHandler.GetAllGameObjects().Where(gameObject => gameObject.tag == targetTag).ToList();
 
         return IterateHitboxList(CollisionList);
     }
@@ -78,9 +78,9 @@ abstract class GameObject
     {
         List<GameObject> CollisionList = new();
 
-        foreach (GameObject slop in Program.gameObjects)
+        foreach (GameObject slop in Program.objectHandler.GetAllGameObjects())
         {
-            if (targetTags.Contains(slop.Tag))
+            if (targetTags.Contains(slop.tag))
                 CollisionList.Add(slop);
         }
 
@@ -92,7 +92,7 @@ abstract class GameObject
         GameObject? gameObject = GetCollidingObject(targetTag);
         if (gameObject != null)
         {
-            string tag = gameObject.Tag;
+            string tag = gameObject.tag;
             if (tag == targetTag)
             {
                 return true;
@@ -104,7 +104,7 @@ abstract class GameObject
 
     protected void OutOfBoundsCheck(Vector2f velocity)
     {
-        float borderMultiplier = 1.2f;
+        float borderMultiplier = 1.3f;
 
         // tar bort objekt som är utanför skärman och kommer att åka iväg
         if (position.X > (Program.WindowSize.X * borderMultiplier) + (size.X / 2) && velocity.X > 0)

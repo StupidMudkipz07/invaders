@@ -6,6 +6,11 @@ class EnemyShootController : IShootable
     int shootCooldown;
     int shootCooldownRandomAddedAmount = 600;
 
+    float bulletMoveSpeed;
+    float damage;
+    Vector2f bulletSize;
+    string bulletSprite;
+
     void StartTimer()
     {
         canShoot = false;
@@ -13,8 +18,13 @@ class EnemyShootController : IShootable
         shootTimer.Change(dueTime: shootCooldown + cooldownAdder, period: Timeout.Infinite);
     }
 
-    public EnemyShootController(int shootCooldown)
+    public EnemyShootController(int shootCooldown, float damage, float bulletMoveSpeed, Vector2f bulletSize, string bulletSprite)
     {
+        this.shootCooldown = shootCooldown;
+        this.bulletMoveSpeed = bulletMoveSpeed;
+        this.bulletSize = bulletSize;
+        this.damage = damage;
+        this.bulletSprite = bulletSprite;
         shootTimer = new Timer(callback => canShoot = true, state: null, dueTime: Timeout.Infinite, period: Timeout.Infinite);
         this.shootCooldown = shootCooldown;
         StartTimer();
@@ -22,7 +32,7 @@ class EnemyShootController : IShootable
 
     public void Shoot(Vector2f direction, Vector2f position, string targetTag)
     {
-        new Projectile(position, direction, targetTag);
+        new Projectile(bulletMoveSpeed, damage, position, bulletSize, direction, bulletSprite, targetTag);
     }
 
     public bool ShootRequirements()

@@ -5,10 +5,10 @@ global using SFML.System;
 global using System.Text.Json.Serialization;
 global using System.Text.Json;
 
-using System.IO;
-
 static class Program
 {
+    public static IGameObjectHandleable objectHandler = new AngelGameHandler();
+
     static string windowName = "Sloppar spelet";
 
     static ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
@@ -16,32 +16,13 @@ static class Program
 
     static string playerDataFilePath = "data/playerData.json";
     static string seraphimDataFilePath = "data/seraphimData.json";
-    static string viruteDataFilePath = "data/virtueData.json";
+    static string virtueDataFilePath = "data/virtueData.json";
     static string archangelDataFilePath = "data/archangelData.json";
 
     public static Vector2u WindowSize = new(800, 1080);
 
-    static public List<GameObject> gameObjects = new();
 
-    static List<GameObject> buffer = new();
-
-    public static void AddToGameList(GameObject gameObject)
-    {
-        buffer.Add(gameObject);
-    }
-
-    public static void AddToGameList(GameObject[] gameObject)
-    {
-        buffer.AddRange(gameObject);
-    }
-
-    static void AddBuffer()
-    {
-        gameObjects.AddRange(buffer);
-        buffer.Clear();
-    }
-
-    static void SpawnAngel(string dataFilepath)
+    static void SpawnEnemy(string dataFilepath)
     {
         SpaceShipData stats = new SpaceShipData(dataFilepath);
         SpaceShip.SpawnEnemy(stats, new(WindowSize.X / 2, -stats.size.X / 2));
@@ -60,32 +41,10 @@ static class Program
     static void SpawnObjects()
     {
         SpawnPlayer1();
-        SpawnPlayer2();
-        SpawnAngel(seraphimDataFilePath);
-    }
-
-    static void UpdateGameObjects(float deltaTime)
-    {
-        for (int i = 0; i < gameObjects.Count; i++)
-        {
-            //först uppdatera alla värden
-            gameObjects[i].Update(deltaTime);
-            // Console.Write(gameObjects);
-        }
-
-        //   Console.Write("\n");
-
-        // tar bort alla objekt efter man har itererat så inte listan förstörs
-        gameObjects.RemoveAll(obj => obj.remove == true);
-    }
-
-    static void DrawGameObjects(RenderWindow window)
-    {
-        for (int i = 0; i < gameObjects.Count; i++)
-        {
-            //kollar så att objektet finns i skärmen innan den ritar det
-            if (gameObjects[i].IsInView()) gameObjects[i].Draw(window);
-        }
+        //SpawnPlayer2();
+        SpawnEnemy(archangelDataFilePath);
+        SpawnEnemy(seraphimDataFilePath);
+        SpawnEnemy(virtueDataFilePath);
     }
 
     public static void Main()
@@ -106,8 +65,8 @@ static class Program
             int fpsFrames = 0;
 
             window.SetFramerateLimit(60);
-            window.Closed += (o, e) => window.Close();            //input debug
-            window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code);
+            window.Closed += (o, e) => window.Close();
+            window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code); //input debug
 
             SpawnObjects();
 
@@ -127,11 +86,11 @@ static class Program
                     fpsFrames = 0;
                 }
 
-                UpdateGameObjects(deltaTime);
-                DrawGameObjects(window);
+                objectHandler.UpdateGameObjects(deltaTime);
+                objectHandler.DrawGameObjects(window);
                 window.Draw(fpsText);
 
-                AddBuffer();
+                 objectHandler.AddBuffer();
 
                 window.Display();
             }
@@ -151,7 +110,7 @@ static class Program
 
     //Returns the length of the vector
     public static float Length(Vector2f vector) => MathF.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-    
+
     //returns the inverse of the vector
     public static Vector2f Inverse(Vector2f vector) => new(vector.X * -1, vector.Y * -1);
 

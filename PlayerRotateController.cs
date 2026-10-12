@@ -1,4 +1,4 @@
-class PlayerRotateController : IMoveController
+class PlayerRotateController : IMoveControllable
 {
     ControlLayout controlLayout;
     float angle = 0;

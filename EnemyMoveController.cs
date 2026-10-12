@@ -1,4 +1,4 @@
-class EnemyMoveController : IMoveController
+class EnemyMoveController : IMoveControllable
 {
     GameObject targetObject;
 
@@ -17,6 +17,11 @@ class EnemyMoveController : IMoveController
         else if (targetObject.position.X < (targetObject.size.X / 2))
         {
             direction.X = 1;
+        }
+
+        if (targetObject.position.Y >= Program.WindowSize.Y + (targetObject.size.Y / 2))
+        {
+            targetObject.position.Y = 0 - targetObject.size.Y / 2;
         }
 
         return direction;

@@ -1,11 +1,17 @@
 {
     "moveSpeed": 200,
     "health": 14,
-    "shootCooldown": 800,
+    "shootCooldown": 700,
     "damage": 1,
     "sprite": "archangel",
     "size": {
         "X": 167,
         "Y": 167
+    },
+    "bulletMoveSpeed": 600,
+    "bulletSprite": "cross",
+    "bulletSize": {
+        "X": 67,
+        "Y": 67
     }
 }

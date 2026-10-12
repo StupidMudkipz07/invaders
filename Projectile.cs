@@ -1,7 +1,7 @@
 class Projectile : GameObject
 {
-    float moveSpeed = 800;
-    float damage = 1;
+    float moveSpeed;
+    float damage;
     string targetTag;
 
     void CheckForTarget()
@@ -19,11 +19,13 @@ class Projectile : GameObject
         }
     }
 
-    public Projectile(Vector2f position, Vector2f Direction, string targetTag)
+    public Projectile(float moveSpeed, float damage, Vector2f position, Vector2f size, Vector2f Direction, string sprite, string targetTag)
     {
         direction = Direction;
-        InitializeVariables("projectile", position, new(50, 50), Program.GlobalTags.Neutral);
+        InitializeVariables(sprite, position, size, Program.GlobalTags.Neutral);
         this.targetTag = targetTag;
+        this.damage = damage;
+        this.moveSpeed = moveSpeed;
         facingDirection = direction;
     }
 
@@ -37,6 +39,6 @@ class Projectile : GameObject
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite, size, window, Program.VectorToAngle(direction)+90);
+        DrawObject(sprite, size, window, Program.VectorToAngle(direction) + 90);
     }
 }

@@ -2,9 +2,8 @@ class SpaceShip : GameObject, IDamageable
 {
     public float moveSpeed;
     public float health;
-    public float damage;
     public string OpposingTag;
-    IMoveController moveController;
+    IMoveControllable moveController;
     IShootable shootController;
 
     SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
@@ -21,7 +20,7 @@ class SpaceShip : GameObject, IDamageable
             facingDirection = new(0, -1),
             OpposingTag = Program.GlobalTags.Enemy
         };
-        PlayerController playerController = new PlayerController(stats.shootCooldown, controlLayout, stats.size.X * 0.4f);
+        PlayerController playerController = new PlayerController(stats.shootCooldown, stats.damage, stats.bulletMoveSpeed, stats.bulletSize, stats.bulletSprite, controlLayout, stats.size.X * 0.4f);
 
         //player.moveController = new PlayerRotateController(controlLayout);
         player.moveController = playerController;
@@ -43,7 +42,7 @@ class SpaceShip : GameObject, IDamageable
         };
 
         enemy.moveController = new EnemyMoveController(enemy); ;
-        enemy.shootController = new EnemyShootController(stats.shootCooldown);
+        enemy.shootController = new EnemyShootController(stats.shootCooldown, stats.damage, stats.bulletMoveSpeed, stats.bulletSize, stats.bulletSprite);
 
         return enemy;
     }

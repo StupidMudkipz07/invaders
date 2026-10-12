@@ -1,10 +1,14 @@
-class PlayerController : IMoveController, IShootable
+class PlayerController : IMoveControllable, IShootable
 {
     float projectilePositionOffset;
     ControlLayout controlLayout;
     readonly Timer shootTimer;
     volatile bool canShoot = true;
 
+    float bulletMoveSpeed;
+    float damage;
+    Vector2f bulletSize;
+    string bulletSprite;
     int shootCooldown;
 
     void StartTimer()
@@ -13,12 +17,16 @@ class PlayerController : IMoveController, IShootable
         shootTimer.Change(dueTime: shootCooldown, period: Timeout.Infinite);
     }
 
-    public PlayerController(int shootCooldown, ControlLayout controlLayout, float projectilePositionOffset)
+    public PlayerController(int shootCooldown, float damage, float bulletMoveSpeed, Vector2f bulletSize, string bulletSprite, ControlLayout controlLayout, float projectilePositionOffset)
     {
         this.controlLayout = controlLayout;
         this.shootCooldown = shootCooldown;
+        this.bulletMoveSpeed = bulletMoveSpeed;
+        this.bulletSize = bulletSize;
+        this.damage = damage;
+        this.bulletSprite = bulletSprite;
         shootTimer = new Timer(callback => canShoot = true, state: null, dueTime: Timeout.Infinite, period: Timeout.Infinite);
-        this.projectilePositionOffset = projectilePositionOffset;   
+        this.projectilePositionOffset = projectilePositionOffset;
     }
 
     public Vector2f GetMoveDirection()
@@ -53,7 +61,7 @@ class PlayerController : IMoveController, IShootable
 
     public void Shoot(Vector2f direction, Vector2f position, string targetTag)
     {
-        new Projectile(new(position.X - projectilePositionOffset, position.Y), direction, targetTag);
-        new Projectile(new(position.X + projectilePositionOffset, position.Y), direction, targetTag);
+        new Projectile(bulletMoveSpeed, damage, new(position.X - projectilePositionOffset, position.Y), bulletSize, direction, bulletSprite, targetTag);
+        new Projectile(bulletMoveSpeed, damage, new(position.X + projectilePositionOffset, position.Y), bulletSize, direction, bulletSprite, targetTag);
     }
 }

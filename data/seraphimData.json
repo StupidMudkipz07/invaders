@@ -7,5 +7,11 @@
     "size": {
         "X": 130,
         "Y": 130
+    },
+    "bulletMoveSpeed": 800,
+    "bulletSprite": "cross",
+    "bulletSize": {
+        "X": 50,
+        "Y": 50
     }
 }

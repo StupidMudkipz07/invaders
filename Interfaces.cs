@@ -3,7 +3,7 @@ interface IDamageable
     public void OnTakeDamage(float damage);
 }
 
-interface IMoveController
+interface IMoveControllable
 {
     public Vector2f GetMoveDirection();
 

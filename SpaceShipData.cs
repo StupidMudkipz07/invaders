@@ -4,8 +4,11 @@ struct SpaceShipData
     public float health { get; init; }
     public float damage { get; init; }
     public int shootCooldown { get; init; }
+    public float bulletMoveSpeed { get; init; }
     public string sprite { get; init; }
+    public string bulletSprite { get; init; }
     public Vector2f size { get; init; }
+    public Vector2f bulletSize { get; init; }
 
     public void Print()
     {
