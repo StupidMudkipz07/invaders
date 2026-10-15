@@ -11,4 +11,6 @@ interface IGameObjectHandleable
     public Vector2u PlayArea { get; }
     
     public List<GameObject> GetAllGameObjects();
+    
+    //slop
 }
