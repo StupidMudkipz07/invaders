@@ -8,5 +8,7 @@ interface IGameObjectHandleable
 
     public void AddBuffer();
 
+    public Vector2u PlayArea { get; }
+    
     public List<GameObject> GetAllGameObjects();
 }

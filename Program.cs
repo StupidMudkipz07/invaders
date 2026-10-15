@@ -27,11 +27,11 @@ static class Program
             window.Closed += (o, e) => window.Close();
             window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code); //input debug
 
-           objectHandler = new GameObjectHandler();
-
+           objectHandler = new GameObjectHandler(WindowSize);
+           Console.WriteLine(WindowSize); 
+           
             while (window.IsOpen)
             {
-
                 window.DispatchEvents();
                 float deltaTime = clock.Restart().AsSeconds();
                 window.Clear(clearColor);

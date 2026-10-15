@@ -41,7 +41,7 @@ class SpaceShip : GameObject, IDamageable
             OpposingTag = Program.GlobalTags.Player
         };
 
-        enemy.moveController = new EnemyMoveController(enemy); ;
+        enemy.moveController = new EnemyMoveController(enemy,handler.PlayArea);
         enemy.shootController = new EnemyShootController(stats.shootCooldown, stats.damage, stats.bulletMoveSpeed, stats.bulletSize, stats.bulletSprite);
 
         return enemy;

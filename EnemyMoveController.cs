@@ -2,15 +2,18 @@ class EnemyMoveController : IMoveControllable
 {
     GameObject targetObject;
 
-    public EnemyMoveController(GameObject gameObject)
+    Vector2u borders = new();
+
+    public EnemyMoveController(GameObject gameObject,Vector2u borders)
     {
         this.targetObject = gameObject;
+        this.borders = borders;
     }
 
     public Vector2f GetMoveDirection()
     {
         Vector2f direction = targetObject.direction;
-        if (targetObject.position.X > Program.WindowSize.X - (targetObject.size.X / 2))
+        if (targetObject.position.X > borders.X - (targetObject.size.X / 2))
         {
             direction.X = -1;
         }
@@ -19,7 +22,7 @@ class EnemyMoveController : IMoveControllable
             direction.X = 1;
         }
 
-        if (targetObject.position.Y >= Program.WindowSize.Y + (targetObject.size.Y / 2))
+        if (targetObject.position.Y >= borders.Y + (targetObject.size.Y / 2))
         {
             targetObject.position.Y = 0 - targetObject.size.Y / 2;
         }

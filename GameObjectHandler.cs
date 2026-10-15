@@ -4,6 +4,8 @@ class GameObjectHandler : IGameObjectHandleable
 
     List<GameObject> buffer = new();
 
+    public Vector2u playArea;
+    
     ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
     ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
 
@@ -12,26 +14,32 @@ class GameObjectHandler : IGameObjectHandleable
     const string virtueDataFilePath = "data/virtueData.json";
     const string archangelDataFilePath = "data/archangelData.json";
 
-    public GameObjectHandler()
+    public Vector2u PlayArea
+    {
+        get{return playArea;}
+    }
+    
+    public GameObjectHandler(Vector2u playArea)
     {
         GameObject.SetObjectHandler(this);
         SpawnObjects();
+        this.playArea = playArea;
     }
 
     void SpawnEnemy(string dataFilepath)
     {
         SpaceShipData stats = new SpaceShipData(dataFilepath);
-        SpaceShip.SpawnEnemy(stats, new(Program.WindowSize.X / 2, -stats.size.X / 2));
+        SpaceShip.SpawnEnemy(stats, new(playArea.X / 2, -stats.size.X / 2));
     }
 
     void SpawnPlayer1()
     {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(Program.WindowSize.X / 2, 700), player1Controls);
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
     }
 
     void SpawnPlayer2()
     {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(Program.WindowSize.X / 2, 700), player2Controls);
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(playArea.X / 2, 700), player2Controls);
     }
 
     void SpawnObjects()

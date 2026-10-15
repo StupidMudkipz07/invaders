@@ -1,6 +1,6 @@
 abstract class GameObject
 {
-    static IGameObjectHandleable handler;
+    protected static  IGameObjectHandleable handler;
 
     //this function should be called in a objectHandler class 
     public static void SetObjectHandler(IGameObjectHandleable objecthandler)
@@ -144,9 +144,9 @@ abstract class GameObject
     public bool IsInView()
     {
         if (position.X < -size.X ||
-        position.X > Program.WindowSize.X + size.X ||
+        position.X > handler.PlayArea.X + size.X ||
         position.Y < -size.Y ||
-        position.X > Program.WindowSize.Y + size.Y)
+        position.X > handler.PlayArea.Y + size.Y)
         {
             return false;
         }
