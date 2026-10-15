@@ -1,6 +1,6 @@
 interface IGameObjectHandleable
 {
-    public void AddToGameList(GameObject gameObject);
+    public void AddToGameHandlerList(GameObject gameObject);
 
     public void UpdateGameObjects(float deltaTime);
 

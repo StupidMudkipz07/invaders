@@ -7,45 +7,13 @@ global using System.Text.Json;
 
 static class Program
 {
-    public static IGameObjectHandleable objectHandler = new AngelGameHandler();
+    static IGameObjectHandleable objectHandler;
 
     static string windowName = "Sloppar spelet";
 
-    static ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
-    static ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
-
-    static string playerDataFilePath = "data/playerData.json";
-    static string seraphimDataFilePath = "data/seraphimData.json";
-    static string virtueDataFilePath = "data/virtueData.json";
-    static string archangelDataFilePath = "data/archangelData.json";
-
     public static Vector2u WindowSize = new(800, 1080);
 
-
-    static void SpawnEnemy(string dataFilepath)
-    {
-        SpaceShipData stats = new SpaceShipData(dataFilepath);
-        SpaceShip.SpawnEnemy(stats, new(WindowSize.X / 2, -stats.size.X / 2));
-    }
-
-    static void SpawnPlayer1()
-    {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(WindowSize.X / 2, 700), player1Controls);
-    }
-
-    static void SpawnPlayer2()
-    {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(WindowSize.X / 2, 700), player2Controls);
-    }
-
-    static void SpawnObjects()
-    {
-        SpawnPlayer1();
-        //SpawnPlayer2();
-        SpawnEnemy(archangelDataFilePath);
-        SpawnEnemy(seraphimDataFilePath);
-        SpawnEnemy(virtueDataFilePath);
-    }
+    public static Color clearColor = new(20, 20, 20);
 
     public static void Main()
     {
@@ -54,43 +22,24 @@ static class Program
         using (RenderWindow window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), windowName))
         {
             Clock clock = new Clock();
-            using Font fpsFont = new(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Fonts), "arial.ttf"));
-            using Text fpsText = new("FPS: 0", fpsFont)
-            {
-                CharacterSize = 20,
-                FillColor = Color.White,
-                Position = new(10, 10)
-            };
-            float fpsElapsed = 0;
-            int fpsFrames = 0;
 
             window.SetFramerateLimit(60);
             window.Closed += (o, e) => window.Close();
             window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code); //input debug
 
-            SpawnObjects();
+           objectHandler = new GameObjectHandler();
 
             while (window.IsOpen)
             {
 
                 window.DispatchEvents();
                 float deltaTime = clock.Restart().AsSeconds();
-                window.Clear(new(10, 10, 10));
-
-                fpsElapsed += deltaTime;
-                fpsFrames++;
-                if (fpsElapsed >= 0.5f)
-                {
-                    fpsText.DisplayedString = $"FPS: {fpsFrames / fpsElapsed:0}";
-                    fpsElapsed = 0;
-                    fpsFrames = 0;
-                }
+                window.Clear(clearColor);
 
                 objectHandler.UpdateGameObjects(deltaTime);
                 objectHandler.DrawGameObjects(window);
-                window.Draw(fpsText);
 
-                 objectHandler.AddBuffer();
+                objectHandler.AddBuffer();
 
                 window.Display();
             }

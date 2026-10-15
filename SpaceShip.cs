@@ -6,12 +6,12 @@ class SpaceShip : GameObject, IDamageable
     IMoveControllable moveController;
     IShootable shootController;
 
-    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
+    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size) 
     {
         InitializeVariables(spriteName, position, size, tag);
     }
 
-    public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout)
+    public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout) 
     {
         SpaceShip player = new(stats.sprite, Program.GlobalTags.Player, startPosition, stats.size)
         {

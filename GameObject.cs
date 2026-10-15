@@ -1,16 +1,24 @@
 abstract class GameObject
 {
+    static IGameObjectHandleable handler;
+
+    //this function should be called in a objectHandler class 
+    public static void SetObjectHandler(IGameObjectHandleable objecthandler)
+    {
+        handler = objecthandler;
+    }
+
     public Vector2f position;
     public Vector2f size;
     public Vector2f direction;
     public Vector2f facingDirection;
-    protected Sprite? sprite;
     public bool remove = false;
-    public string tag = string.Empty;
+    public string tag = "";
+    protected Sprite sprite;
 
     public GameObject()
     {
-        Program.objectHandler.AddToGameList(this);
+        handler.AddToGameHandlerList(this);
     }
 
     //should be called in constructor
@@ -60,7 +68,7 @@ abstract class GameObject
     // returnar objektet som kollideras med
     public GameObject? GetCollidingObject()
     {
-        return IterateHitboxList(Program.objectHandler.GetAllGameObjects());
+        return IterateHitboxList(handler.GetAllGameObjects());
     }
 
     //returnar objektet som kollideras med och matcher taggen
@@ -68,7 +76,7 @@ abstract class GameObject
     {
         // goofy ass c# standard    
         //List<GameObject> CollisionList = [.. Program.gameObjects.Where(gameObject => gameObject.Tag == targetTag)];
-        List<GameObject> CollisionList = Program.objectHandler.GetAllGameObjects().Where(gameObject => gameObject.tag == targetTag).ToList();
+        List<GameObject> CollisionList = handler.GetAllGameObjects().Where(gameObject => gameObject.tag == targetTag).ToList();
 
         return IterateHitboxList(CollisionList);
     }
@@ -78,12 +86,11 @@ abstract class GameObject
     {
         List<GameObject> CollisionList = new();
 
-        foreach (GameObject slop in Program.objectHandler.GetAllGameObjects())
+        foreach (GameObject slop in handler.GetAllGameObjects())
         {
             if (targetTags.Contains(slop.tag))
                 CollisionList.Add(slop);
         }
-
         return IterateHitboxList(CollisionList);
     }
 

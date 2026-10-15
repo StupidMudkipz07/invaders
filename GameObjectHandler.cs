@@ -1,19 +1,52 @@
-class AngelGameHandler : IGameObjectHandleable
+class GameObjectHandler : IGameObjectHandleable
 {
     List<GameObject> gameObjects = new();
 
     List<GameObject> buffer = new();
 
-    IEnemyHandler enemyController;
+    ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
+    ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
 
-    public AngelGameHandler()
+    const string playerDataFilePath = "data/playerData.json";
+    const string seraphimDataFilePath = "data/seraphimData.json";
+    const string virtueDataFilePath = "data/virtueData.json";
+    const string archangelDataFilePath = "data/archangelData.json";
+
+    public GameObjectHandler()
     {
-        
+        GameObject.SetObjectHandler(this);
+        SpawnObjects();
     }
+
+    void SpawnEnemy(string dataFilepath)
+    {
+        SpaceShipData stats = new SpaceShipData(dataFilepath);
+        SpaceShip.SpawnEnemy(stats, new(Program.WindowSize.X / 2, -stats.size.X / 2));
+    }
+
+    void SpawnPlayer1()
+    {
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(Program.WindowSize.X / 2, 700), player1Controls);
+    }
+
+    void SpawnPlayer2()
+    {
+        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(Program.WindowSize.X / 2, 700), player2Controls);
+    }
+
+    void SpawnObjects()
+    {
+        SpawnPlayer1();
+        //SpawnPlayer2();
+        SpawnEnemy(archangelDataFilePath);
+        SpawnEnemy(seraphimDataFilePath);
+        SpawnEnemy(virtueDataFilePath);
+    }
+
 
     public List<GameObject> GetAllGameObjects() => gameObjects;
 
-    public void AddToGameList(GameObject gameObject)
+    public void AddToGameHandlerList(GameObject gameObject)
     {
         buffer.Add(gameObject);
     }
