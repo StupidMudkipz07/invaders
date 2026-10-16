@@ -39,7 +39,7 @@ static class Program
                 objectHandler.UpdateGameObjects(deltaTime);
                 objectHandler.DrawGameObjects(window);
 
-                objectHandler.AddBuffer();
+                objectHandler.SpawnObjects();
 
                 window.Display();
             }

@@ -5,7 +5,9 @@ class GameObjectHandler : IGameObjectHandleable
     List<GameObject> buffer = new();
 
     public Vector2u playArea;
-    
+
+    ISpawnHandleable spawner = new SpawnHandler();
+
     ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
     ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
 
@@ -16,14 +18,14 @@ class GameObjectHandler : IGameObjectHandleable
 
     public Vector2u PlayArea
     {
-        get{return playArea;}
+        get { return playArea; }
     }
-    
+
     public GameObjectHandler(Vector2u playArea)
     {
-        GameObject.SetObjectHandler(this);
-        SpawnObjects();
         this.playArea = playArea;
+        GameObject.SetObjectHandler(this);
+        SpawnStartingObjects();
     }
 
     void SpawnEnemy(string dataFilepath)
@@ -42,15 +44,20 @@ class GameObjectHandler : IGameObjectHandleable
         SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(playArea.X / 2, 700), player2Controls);
     }
 
-    void SpawnObjects()
+    void SpawnStartingObjects()
     {
         SpawnPlayer1();
-        //SpawnPlayer2();
+        SpawnPlayer2();
         SpawnEnemy(archangelDataFilePath);
         SpawnEnemy(seraphimDataFilePath);
         SpawnEnemy(virtueDataFilePath);
     }
 
+    public void SpawnObjects()
+    {
+
+        AddBuffer();
+    }
 
     public List<GameObject> GetAllGameObjects() => gameObjects;
 
@@ -59,12 +66,7 @@ class GameObjectHandler : IGameObjectHandleable
         buffer.Add(gameObject);
     }
 
-    public void AddToGameList(GameObject[] gameObject)
-    {
-        buffer.AddRange(gameObject);
-    }
-
-    public void AddBuffer()
+    void AddBuffer()
     {
         gameObjects.AddRange(buffer);
         buffer.Clear();
@@ -93,5 +95,4 @@ class GameObjectHandler : IGameObjectHandleable
             if (gameObjects[i].IsInView()) gameObjects[i].Draw(window);
         }
     }
-
 }
