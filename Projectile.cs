@@ -1,4 +1,4 @@
-class Projectile : GameObject
+class Projectile : MoveableObject
 {
     float moveSpeed;
     float damage;
@@ -6,7 +6,7 @@ class Projectile : GameObject
 
     void CheckForTarget()
     {
-        GameObject? gameObject = GetCollidingObject(targetTag);
+        Object? gameObject = GetCollidingObject(targetTag);
 
         if (gameObject != null)
         {
@@ -34,11 +34,11 @@ class Projectile : GameObject
         CheckForTarget();
 
         // viktigt att normalisera vector
-        Move(deltaTime, Program.Normalize(direction) * moveSpeed);
+        Move(deltaTime, VectorMath.Normalize(direction) * moveSpeed);
     }
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite, size, window, Program.VectorToAngle(direction) + 90);
+        DrawObject(sprite, size, window, VectorMath.VectorToAngle(direction) + 90);
     }
 }

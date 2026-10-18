@@ -16,7 +16,7 @@ class PlayerRotateController : IMoveControllable
         if (KeyboardHandler.IsKeyDown(controlLayout.up))
             direction = GetFacingDirection();
         if (KeyboardHandler.IsKeyDown(controlLayout.down))
-            direction = Program.Inverse(GetFacingDirection());
+            direction = VectorMath.Inverse(GetFacingDirection());
 
         return direction;
     }
@@ -28,6 +28,6 @@ class PlayerRotateController : IMoveControllable
         if (KeyboardHandler.IsKeyDown(controlLayout.right))
             angle -= turningSpeed;
 
-        return Program.AngleToVector(angle);
+        return VectorMath.AngleToVector(angle);
     }
 }

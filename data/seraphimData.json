@@ -1,6 +1,6 @@
 {
     "moveSpeed": 300,
-    "health": 6,
+    "health": 8,
     "shootCooldown": 1100,
     "damage": 1,
     "sprite": "seraphim",

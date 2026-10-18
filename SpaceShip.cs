@@ -1,4 +1,4 @@
-class SpaceShip : GameObject, IDamageable
+class SpaceShip : MoveableObject, IDamageable
 {
     public float moveSpeed;
     public float health;
@@ -6,12 +6,12 @@ class SpaceShip : GameObject, IDamageable
     IMoveControllable moveController;
     IShootable shootController;
 
-    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size) 
+    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
     {
         InitializeVariables(spriteName, position, size, tag);
     }
 
-    public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout) 
+    public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout)
     {
         SpaceShip player = new(stats.sprite, Program.GlobalTags.Player, startPosition, stats.size)
         {
@@ -41,7 +41,7 @@ class SpaceShip : GameObject, IDamageable
             OpposingTag = Program.GlobalTags.Player
         };
 
-        enemy.moveController = new EnemyMoveController(enemy,handler.PlayArea);
+        enemy.moveController = new EnemyMoveController(enemy, handler.PlayArea);
         enemy.shootController = new EnemyShootController(stats.shootCooldown, stats.damage, stats.bulletMoveSpeed, stats.bulletSize, stats.bulletSprite);
 
         return enemy;
@@ -63,11 +63,11 @@ class SpaceShip : GameObject, IDamageable
         facingDirection = moveController.GetFacingDirection();
         direction = moveController.GetMoveDirection();
 
-        Move(deltaTime, Program.Normalize(direction) * moveSpeed);
+        Move(deltaTime, VectorMath.Normalize(direction) * moveSpeed);
     }
 
     public override void Draw(RenderWindow window)
     {
-        DrawObject(sprite, size, window, Program.VectorToAngle(facingDirection) + 90);
+        DrawObject(sprite, size, window, VectorMath.VectorToAngle(facingDirection) + 90);
     }
 }

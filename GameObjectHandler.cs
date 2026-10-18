@@ -1,20 +1,12 @@
 class GameObjectHandler : IGameObjectHandleable
 {
-    List<GameObject> gameObjects = new();
+    List<Object> gameObjects = new();
 
-    List<GameObject> buffer = new();
+    List<Object> buffer = new();
 
     public Vector2u playArea;
 
-    ISpawnHandleable spawner = new SpawnHandler();
-
-    ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
-    ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
-
-    const string playerDataFilePath = "data/playerData.json";
-    const string seraphimDataFilePath = "data/seraphimData.json";
-    const string virtueDataFilePath = "data/virtueData.json";
-    const string archangelDataFilePath = "data/archangelData.json";
+    ISpawnHandleable spawner;
 
     public Vector2u PlayArea
     {
@@ -24,44 +16,21 @@ class GameObjectHandler : IGameObjectHandleable
     public GameObjectHandler(Vector2u playArea)
     {
         this.playArea = playArea;
-        GameObject.SetObjectHandler(this);
-        SpawnStartingObjects();
+        Object.SetObjectHandler(this);
+        spawner = new SpawnHandler(playArea);
+        spawner.SpawnStartingObjects();
     }
 
-    void SpawnEnemy(string dataFilepath)
-    {
-        SpaceShipData stats = new SpaceShipData(dataFilepath);
-        SpaceShip.SpawnEnemy(stats, new(playArea.X / 2, -stats.size.X / 2));
-    }
-
-    void SpawnPlayer1()
-    {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
-    }
-
-    void SpawnPlayer2()
-    {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(playArea.X / 2, 700), player2Controls);
-    }
-
-    void SpawnStartingObjects()
-    {
-        SpawnPlayer1();
-        SpawnPlayer2();
-        SpawnEnemy(archangelDataFilePath);
-        SpawnEnemy(seraphimDataFilePath);
-        SpawnEnemy(virtueDataFilePath);
-    }
 
     public void SpawnObjects()
     {
-
+        spawner.UpdateSpawner();
         AddBuffer();
     }
 
-    public List<GameObject> GetAllGameObjects() => gameObjects;
+    public List<Object> GetAllGameObjects() => gameObjects;
 
-    public void AddToGameHandlerList(GameObject gameObject)
+    public void AddToGameHandlerList(Object gameObject)
     {
         buffer.Add(gameObject);
     }

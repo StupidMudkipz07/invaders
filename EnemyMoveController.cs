@@ -1,10 +1,10 @@
 class EnemyMoveController : IMoveControllable
 {
-    GameObject targetObject;
+    MoveableObject targetObject;
 
     Vector2u borders = new();
 
-    public EnemyMoveController(GameObject gameObject,Vector2u borders)
+    public EnemyMoveController(MoveableObject gameObject, Vector2u borders)
     {
         this.targetObject = gameObject;
         this.borders = borders;
