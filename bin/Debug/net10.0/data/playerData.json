@@ -3,7 +3,7 @@
     "health": 3,
     "damage": 1,
     "shootCooldown": 340,
-    "bulletMoveSpeed": 800,
+    "bulletMoveSpeed": 1000,
     "bulletSprite": "projectile",
     "sprite": "kallo",
     "size": {

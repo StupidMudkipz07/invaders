@@ -21,7 +21,6 @@ class GameObjectHandler : IGameObjectHandleable
         spawner.SpawnStartingObjects();
     }
 
-
     public void SpawnObjects()
     {
         spawner.UpdateSpawner();
@@ -60,8 +59,14 @@ class GameObjectHandler : IGameObjectHandleable
     {
         for (int i = 0; i < gameObjects.Count; i++)
         {
-            //kollar så att objektet finns i skärmen innan den ritar det
-            if (gameObjects[i].IsInView()) gameObjects[i].Draw(window);
+            if (gameObjects[i] is MoveableObject)
+            {
+                MoveableObject gameObject = gameObjects[i] as MoveableObject;
+                //kollar så att objektet finns i skärmen innan den ritar det
+                if (gameObject.IsInView()) gameObjects[i].Draw(window);
+            }
+            else
+                gameObjects[i].Draw(window);
         }
     }
 }

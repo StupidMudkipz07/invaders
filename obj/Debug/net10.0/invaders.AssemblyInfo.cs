@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("invaders")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4afebd6c7284afb8d3078e5edbdc45d82613d961")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73691adaf1a7512f4fd338ed332bd1830a51c79c")]
 [assembly: System.Reflection.AssemblyProductAttribute("invaders")]
 [assembly: System.Reflection.AssemblyTitleAttribute("invaders")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
