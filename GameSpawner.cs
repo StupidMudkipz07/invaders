@@ -1,4 +1,4 @@
-class SpawnHandler : ISpawnHandleable
+class GameSpawner : GameObject
 {
     const string playerDataFilePath = "data/playerData.json";
     const string seraphimDataFilePath = "data/seraphimData.json";
@@ -7,7 +7,7 @@ class SpawnHandler : ISpawnHandleable
 
     ControlLayout player1Controls = new(Keyboard.Key.W, Keyboard.Key.S, Keyboard.Key.A, Keyboard.Key.D, Keyboard.Key.Space);
     ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
-    Clock clock = new();
+    int amountOfPlayers;
 
     float timeThatHasPassedInSeconds;
     float enemySpawnCooldownInSeconds;
@@ -15,16 +15,17 @@ class SpawnHandler : ISpawnHandleable
     float approachingSpawnTime = 1;
     float amountOfChange = 50;
 
-
     Vector2u playArea;
     readonly Timer enemySpawnTimer;
     volatile bool enemySpawnReady;
     bool enemySpawnTimerScheduled;
 
-    public SpawnHandler(Vector2u playArea)
+    public GameSpawner(Vector2u playArea, int amountOfPlayers)
     {
         enemySpawnTimer = new Timer(_ => enemySpawnReady = true, state: null, dueTime: Timeout.Infinite, period: Timeout.Infinite);
         this.playArea = playArea;
+        SpawnStartingObjects();
+        this.amountOfPlayers = amountOfPlayers;
     }
 
     float GetEnemyRespawnTime(float time)
@@ -77,9 +78,14 @@ class SpawnHandler : ISpawnHandleable
         // SpawnEnemy(virtueDataFilePath);
     }
 
-    public void UpdateSpawner()
+    public override void Update(float deltaTime)
     {
-        timeThatHasPassedInSeconds += clock.Restart().AsSeconds();
+        timeThatHasPassedInSeconds += deltaTime;
         CheckEnemySpawn();
+    }
+
+    public override void Draw(RenderWindow widnow)
+    {
+
     }
 }

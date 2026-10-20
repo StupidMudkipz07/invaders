@@ -11,7 +11,7 @@ static class Program
 
     static string windowName = "Sloppar spelet";
 
-    static Vector2u WindowSize = new(900, 1080);
+    static Vector2u WindowSize = new(1700, 1080);
 
     static Color clearColor = new(20, 20, 20);
 
@@ -38,22 +38,10 @@ static class Program
 
                 objectHandler.UpdateGameObjects(deltaTime);
                 objectHandler.DrawGameObjects(window);
-
-                objectHandler.SpawnObjects();
+                objectHandler.AddBuffer();
 
                 window.Display();
             }
         }
-    }
-
-    public static class GlobalTags
-    { //maybe have an algoritm that makes these strings
-        public const string Player = "1";
-
-        public const string Enemy = "2";
-
-        public const string Neutral = "sloppigt";
-
-        public const string Asteroid = "4";
     }
 }

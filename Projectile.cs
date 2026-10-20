@@ -1,4 +1,4 @@
-class Projectile : MoveableObject
+class Projectile : PhysicalObject
 {
     float moveSpeed;
     float damage;
@@ -6,7 +6,7 @@ class Projectile : MoveableObject
 
     void CheckForTarget()
     {
-        Object? gameObject = GetCollidingObject(targetTag);
+        GameObject? gameObject = GetCollidingObject(targetTag);
 
         if (gameObject != null)
         {
@@ -22,7 +22,7 @@ class Projectile : MoveableObject
     public Projectile(float moveSpeed, float damage, Vector2f position, Vector2f size, Vector2f Direction, string sprite, string targetTag)
     {
         direction = Direction;
-        InitializeVariables(sprite, position, size, Program.GlobalTags.Neutral);
+        InitializeVariables(sprite, position, size, GlobalTags.Neutral);
         this.targetTag = targetTag;
         this.damage = damage;
         this.moveSpeed = moveSpeed;

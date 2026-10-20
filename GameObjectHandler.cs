@@ -1,43 +1,48 @@
+using System.Runtime.InteropServices;
+
 class GameObjectHandler : IGameObjectHandleable
 {
-    List<Object> gameObjects = new();
+    List<GameObject> gameObjects = new();
 
-    List<Object> buffer = new();
+    List<GameObject> buffer = new();
 
-    public Vector2u playArea;
-
-    ISpawnHandleable spawner;
+    Vector2u playArea;
 
     public Vector2u PlayArea
     {
         get { return playArea; }
+        private set { playArea = value; }
     }
 
     public GameObjectHandler(Vector2u playArea)
     {
-        this.playArea = playArea;
-        Object.SetObjectHandler(this);
-        spawner = new SpawnHandler(playArea);
-        spawner.SpawnStartingObjects();
+        PlayArea = playArea;
+        GameObject.SetObjectHandler(this);
+        new MenuHandler();
+        new Button(new(200, 200), new(300, 200), () => new GameSpawner(PlayArea, 1))
+        {
+            color = Color.Black,
+            text = new Text()
+            {
+                DisplayedString = "niklas",
+                Position = new(200, 200),
+                
+            }
+        };
+        new Button(new(700, 200), new(300, 200), () => System.Console.WriteLine("clicked"));
     }
 
-    public void SpawnObjects()
-    {
-        spawner.UpdateSpawner();
-        AddBuffer();
-    }
-
-    public List<Object> GetAllGameObjects() => gameObjects;
-
-    public void AddToGameHandlerList(Object gameObject)
-    {
-        buffer.Add(gameObject);
-    }
-
-    void AddBuffer()
+    public void AddBuffer()
     {
         gameObjects.AddRange(buffer);
         buffer.Clear();
+    }
+
+    public List<GameObject> GetAllGameObjects() => gameObjects;
+
+    public void AddToGameHandlerList(GameObject gameObject)
+    {
+        buffer.Add(gameObject);
     }
 
     public void UpdateGameObjects(float deltaTime)
@@ -59,14 +64,7 @@ class GameObjectHandler : IGameObjectHandleable
     {
         for (int i = 0; i < gameObjects.Count; i++)
         {
-            if (gameObjects[i] is MoveableObject)
-            {
-                MoveableObject gameObject = gameObjects[i] as MoveableObject;
-                //kollar så att objektet finns i skärmen innan den ritar det
-                if (gameObject.IsInView()) gameObjects[i].Draw(window);
-            }
-            else
-                gameObjects[i].Draw(window);
+            gameObjects[i].Draw(window);
         }
     }
 }

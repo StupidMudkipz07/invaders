@@ -1,6 +1,6 @@
 interface IGameObjectHandleable
 {
-    public void AddToGameHandlerList(Object gameObject);
+    public void AddToGameHandlerList(GameObject gameObject);
 
     public void UpdateGameObjects(float deltaTime);
 
@@ -8,7 +8,7 @@ interface IGameObjectHandleable
 
     public Vector2u PlayArea { get; }
     
-    public List<Object> GetAllGameObjects();
+    public List<GameObject> GetAllGameObjects();
 
-    public void SpawnObjects();
+    public void AddBuffer();
 }

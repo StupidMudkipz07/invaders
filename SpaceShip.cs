@@ -1,4 +1,4 @@
-class SpaceShip : MoveableObject, IDamageable
+class SpaceShip : PhysicalObject, IDamageable
 {
     public float moveSpeed;
     public float health;
@@ -13,12 +13,12 @@ class SpaceShip : MoveableObject, IDamageable
 
     public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout)
     {
-        SpaceShip player = new(stats.sprite, Program.GlobalTags.Player, startPosition, stats.size)
+        SpaceShip player = new(stats.sprite, GlobalTags.Player, startPosition, stats.size)
         {
             health = stats.health,
             moveSpeed = stats.moveSpeed,
             facingDirection = new(0, -1),
-            OpposingTag = Program.GlobalTags.Enemy
+            OpposingTag = GlobalTags.Enemy
         };
         PlayerController playerController = new PlayerController(stats.shootCooldown, stats.damage, stats.bulletMoveSpeed, stats.bulletSize, stats.bulletSprite, controlLayout, stats.size.X * 0.4f);
 
@@ -32,13 +32,13 @@ class SpaceShip : MoveableObject, IDamageable
     public static SpaceShip SpawnEnemy(SpaceShipData stats, Vector2f position)
     {                //                             lustig if sats👇👇👇
         Vector2f enemyDirection = new(Random.Shared.Next(2) == 0 ? -1 : 1, 1);
-        SpaceShip enemy = new(stats.sprite, Program.GlobalTags.Enemy, position, stats.size)
+        SpaceShip enemy = new(stats.sprite, GlobalTags.Enemy, position, stats.size)
         {
             health = stats.health,
             moveSpeed = stats.moveSpeed,
             direction = enemyDirection,
             facingDirection = enemyDirection,
-            OpposingTag = Program.GlobalTags.Player
+            OpposingTag = GlobalTags.Player
         };
 
         enemy.moveController = new EnemyMoveController(enemy, handler.PlayArea);

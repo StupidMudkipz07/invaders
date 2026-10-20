@@ -1,7 +1,5 @@
-abstract class MoveableObject : Object
+abstract class PhysicalObject : GameObject
 {
-    public Vector2f position;
-    public Vector2f size;
     public Vector2f direction;
     public Vector2f facingDirection;
 
@@ -16,8 +14,6 @@ abstract class MoveableObject : Object
         this.tag = tag;
         facingDirection = new(0, 0);
     }
-
-
 
     protected void OutOfBoundsCheck(Vector2f velocity)
     {
@@ -108,14 +104,14 @@ abstract class MoveableObject : Object
         return hitbox;
     }
 
-    bool CollisionCheckBetweenGameObjects(MoveableObject other)
+    bool CollisionCheckBetweenGameObjects(PhysicalObject other)
     {
         if (GetHitbox().GetGlobalBounds().Intersects(other.GetHitbox().GetGlobalBounds()))
             return true;
         else return false;
     }
 
-    MoveableObject? IterateHitboxList(List<MoveableObject> list)
+    PhysicalObject? IterateHitboxList(List<PhysicalObject> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
@@ -130,26 +126,26 @@ abstract class MoveableObject : Object
     }
 
     // returnar objektet som kollideras med
-    public MoveableObject? GetCollidingObject()
+    public PhysicalObject? GetCollidingObject()
     {
-        List<MoveableObject> collisionList = handler.GetAllGameObjects().OfType<MoveableObject>().ToList();
+        List<PhysicalObject> collisionList = handler.GetAllGameObjects().OfType<PhysicalObject>().ToList();
         return IterateHitboxList(collisionList);
     }
 
     //returnar objektet som kollideras med och matcher taggen
-    public MoveableObject? GetCollidingObject(string targetTag)
+    public PhysicalObject? GetCollidingObject(string targetTag)
     {
-        List<MoveableObject> CollisionList = handler.GetAllGameObjects().OfType<MoveableObject>().Where(gameObject => gameObject.tag == targetTag).ToList();
+        List<PhysicalObject> CollisionList = handler.GetAllGameObjects().OfType<PhysicalObject>().Where(gameObject => gameObject.tag == targetTag).ToList();
 
         return IterateHitboxList(CollisionList);
     }
 
     //returnar objektet som kollideras med och matcher någon avtaggarna
-    public Object? GetCollidingObject(string[] targetTags)
+    public GameObject? GetCollidingObject(string[] targetTags)
     {
-        List<MoveableObject> CollisionList = new();
+        List<PhysicalObject> CollisionList = new();
 
-        foreach (MoveableObject slop in handler.GetAllGameObjects().OfType<MoveableObject>())
+        foreach (PhysicalObject slop in handler.GetAllGameObjects().OfType<PhysicalObject>())
         {
             if (targetTags.Contains(slop.tag))
                 CollisionList.Add(slop);
@@ -159,7 +155,7 @@ abstract class MoveableObject : Object
 
     public bool CollidingWithTag(string targetTag)
     {
-        MoveableObject? gameObject = GetCollidingObject(targetTag);
+        PhysicalObject? gameObject = GetCollidingObject(targetTag);
         if (gameObject != null)
         {
             string tag = gameObject.tag;
