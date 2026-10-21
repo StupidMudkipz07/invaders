@@ -11,7 +11,7 @@ static class Program
 
     static string windowName = "Sloppar spelet";
 
-    static Vector2u WindowSize = new(1700, 1080);
+    static Vector2u WindowSize = new(1100, 950);
 
     static Color clearColor = new(20, 20, 20);
 

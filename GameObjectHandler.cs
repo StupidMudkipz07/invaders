@@ -51,7 +51,18 @@ class GameObjectHandler : IGameObjectHandleable
     {
         for (int i = 0; i < gameObjects.Count; i++)
         {
-            gameObjects[i].Draw(window);
+
+            if (gameObjects[i] is IDrawable)
+            {
+                var slop = gameObjects[i] as IDrawable;
+                slop.DrawBåt(window);
+            }
+
+            if (gameObjects[i] is PhysicalObject)
+            {
+                var slop = gameObjects[i] as PhysicalObject;
+                slop.DebugDraw(window);
+            }
         }
     }
 }

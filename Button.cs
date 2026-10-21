@@ -1,4 +1,4 @@
-class Button : GameObject, IClickable
+class Button : GameObject, IClickable,IDrawable
 {
     public Color setColor;
     public Text text;
@@ -45,6 +45,12 @@ class Button : GameObject, IClickable
     }
 
     public override void Draw(RenderWindow widnow)
+    {
+        widnow.Draw(GetHitbox());
+        widnow.Draw(text);
+    }
+    
+    public  void DrawBåt(RenderWindow widnow)
     {
         widnow.Draw(GetHitbox());
         widnow.Draw(text);

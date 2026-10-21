@@ -1,4 +1,4 @@
-class MenuHandler : GameObject
+class MenuHandler : GameObject, IDrawable
 {
     Vector2i mousePosition;
 
@@ -35,6 +35,11 @@ class MenuHandler : GameObject
     }
 
     public override void Draw(RenderWindow widnow)
+    {
+        mousePosition = Mouse.GetPosition(widnow);
+    }
+
+    public void DrawBåt(RenderWindow widnow)
     {
         mousePosition = Mouse.GetPosition(widnow);
     }

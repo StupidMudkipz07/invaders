@@ -1,4 +1,4 @@
-class SpaceShip : PhysicalObject, IDamageable
+class SpaceShip : PhysicalObject, IDamageable,IDrawable
 {
     public float moveSpeed;
     public float health;
@@ -96,6 +96,19 @@ class SpaceShip : PhysicalObject, IDamageable
     }
 
     public override void Draw(RenderWindow window)
+    {
+        if (Invincible)
+        {
+            sprite.Color = new(sprite.Color.R, sprite.Color.G, sprite.Color.B, 110);
+        }
+        else
+        {
+            sprite.Color = new(sprite.Color.R, sprite.Color.G, sprite.Color.B, 255);
+        }
+        DrawObject(sprite, size, window, VectorMath.VectorToAngle(facingDirection) + 90);
+    }
+
+    public void DrawBåt(RenderWindow window)
     {
         if (Invincible)
         {

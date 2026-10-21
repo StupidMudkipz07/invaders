@@ -1,4 +1,4 @@
-class Projectile : PhysicalObject
+class Projectile : PhysicalObject, IDrawable
 {
     float moveSpeed;
     float damage;
@@ -38,6 +38,11 @@ class Projectile : PhysicalObject
     }
 
     public override void Draw(RenderWindow window)
+    {
+        DrawObject(sprite, size, window, VectorMath.VectorToAngle(direction) + 90);
+    }
+
+    public void DrawBåt(RenderWindow window)
     {
         DrawObject(sprite, size, window, VectorMath.VectorToAngle(direction) + 90);
     }

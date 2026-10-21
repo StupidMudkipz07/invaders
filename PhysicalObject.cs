@@ -1,4 +1,5 @@
-abstract class PhysicalObject : GameObject
+abstract class 
+    PhysicalObject : GameObject
 {
     public Vector2f direction;
     public Vector2f facingDirection;
@@ -59,7 +60,7 @@ abstract class PhysicalObject : GameObject
         else return true;
     }
 
-    void DebugDraw(RenderWindow window)
+    public void DebugDraw(RenderWindow window)
     {
 
         if (KeyboardHandler.IsKeyDown(Keyboard.Key.LShift))
