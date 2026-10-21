@@ -90,3 +90,5 @@ C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\cross.png
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\projectile.png
 C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\sprites\image.png
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\fonts\future.ttf
+C:\Users\lukas\Programming\raw Csharp Projects\Sloppar spelet\invaders\bin\Debug\net10.0\fonts\saturno.ttf

@@ -1,9 +1,9 @@
 {
-    "moveSpeed": 600,
+    "moveSpeed": 800,
     "health": 3,
     "damage": 1,
-    "shootCooldown": 340,
-    "bulletMoveSpeed": 1000,
+    "shootCooldown": 280,
+    "bulletMoveSpeed": 1400,
     "bulletSprite": "projectile",
     "sprite": "kallo",
     "size": {
@@ -11,7 +11,7 @@
         "Y": 130
     },
     "bulletSize": {
-        "X": 30,
-        "Y": 30
+        "X": 40,
+        "Y": 40
     }
 }

@@ -1,5 +1,3 @@
-using System.Runtime.InteropServices;
-
 class GameObjectHandler : IGameObjectHandleable
 {
     List<GameObject> gameObjects = new();
@@ -18,18 +16,7 @@ class GameObjectHandler : IGameObjectHandleable
     {
         PlayArea = playArea;
         GameObject.SetObjectHandler(this);
-        new MenuHandler();
-        new Button(new(200, 200), new(300, 200), () => new GameSpawner(PlayArea, 1))
-        {
-            color = Color.Black,
-            text = new Text()
-            {
-                DisplayedString = "niklas",
-                Position = new(200, 200),
-                
-            }
-        };
-        new Button(new(700, 200), new(300, 200), () => System.Console.WriteLine("clicked"));
+        new GameStateHandler();
     }
 
     public void AddBuffer()

@@ -1,24 +1,27 @@
 class Button : GameObject, IClickable
 {
-    Action OnClikcAction;
-    public Color color;
+    public Color setColor;
     public Text text;
 
-    public Button(Vector2f position, Vector2f size, Action onClick)
+    Action OnClikcAction;
+    Color color;
+    bool isHovered;
+
+    public Button(Vector2f position, Vector2f size, Action onClick, Color color)
     {
-        color = Color.Red;
+        setColor = color;
         this.position = position;
         this.size = size;
         OnClikcAction = onClick;
         text = new();
+        this.color = setColor;
     }
 
     public RectangleShape GetHitbox() => new() { Position = position, Size = size, FillColor = color };
 
     public void OnHover()
     {
-        color.G = 255;
-        //System.Console.WriteLine("hovering");
+        isHovered = true;
     }
 
     public void OnClick()
@@ -28,7 +31,17 @@ class Button : GameObject, IClickable
 
     public override void Update(float deltaTime)
     {
-        color.B += (byte)(1 + deltaTime * 30);
+        if (!isHovered)
+        {
+            color = setColor;
+        }
+        else
+        {
+            color.R = (byte)(setColor.R - 20);
+            color.B = (byte)(setColor.B - 20);
+            color.G = (byte)(setColor.G - 20);
+        }
+        isHovered = false;
     }
 
     public override void Draw(RenderWindow widnow)

@@ -21,6 +21,11 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
 
+       	<None Remove="fonts/*.ttf" />
+		<EmbeddedResource Include="fonts/*.ttf">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
+
   </ItemGroup>
 
 </Project>

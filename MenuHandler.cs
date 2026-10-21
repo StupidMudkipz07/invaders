@@ -4,7 +4,7 @@ class MenuHandler : GameObject
 
     public MenuHandler()
     {
-
+    
     }
 
     bool MouseIsInsideButton(Button button)

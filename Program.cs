@@ -36,6 +36,12 @@ static class Program
                 float deltaTime = clock.Restart().AsSeconds();
                 window.Clear(clearColor);
 
+                foreach (Object o in objectHandler.GetAllGameObjects())
+                {
+                    System.Console.Write(o + ", ");
+                }
+                System.Console.WriteLine();
+
                 objectHandler.UpdateGameObjects(deltaTime);
                 objectHandler.DrawGameObjects(window);
                 objectHandler.AddBuffer();

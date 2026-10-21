@@ -12,13 +12,16 @@ class GameSpawner : GameObject
     float timeThatHasPassedInSeconds;
     float enemySpawnCooldownInSeconds;
     float StartingSpawnTime = 7;
-    float approachingSpawnTime = 1;
+    float lowestSpawnTime = 1;
     float amountOfChange = 50;
 
     Vector2u playArea;
     readonly Timer enemySpawnTimer;
     volatile bool enemySpawnReady;
-    bool enemySpawnTimerScheduled;
+    bool enemySpawnTimerIsOnSchedule;
+
+    SpaceShip playerShip;
+    
 
     public GameSpawner(Vector2u playArea, int amountOfPlayers)
     {
@@ -30,7 +33,7 @@ class GameSpawner : GameObject
 
     float GetEnemyRespawnTime(float time)
     {
-        float output = (StartingSpawnTime - approachingSpawnTime) * MathF.Pow(0.5f, time / amountOfChange) + approachingSpawnTime;
+        float output = (StartingSpawnTime - lowestSpawnTime) * MathF.Pow(0.5f, time / amountOfChange) + lowestSpawnTime;
         System.Console.WriteLine($"input: {time} output: {output}");
 
         return output;
@@ -41,15 +44,15 @@ class GameSpawner : GameObject
         if (enemySpawnReady)
         {
             enemySpawnReady = false;
-            enemySpawnTimerScheduled = false;
+            enemySpawnTimerIsOnSchedule = false;
             SpawnEnemy(seraphimDataFilePath);
         }
 
-        if (!enemySpawnTimerScheduled)
+        if (!enemySpawnTimerIsOnSchedule)
         {
             float respawnTime = GetEnemyRespawnTime(timeThatHasPassedInSeconds);
             enemySpawnTimer.Change(dueTime: TimeSpan.FromSeconds(respawnTime), period: Timeout.InfiniteTimeSpan);
-            enemySpawnTimerScheduled = true;
+            enemySpawnTimerIsOnSchedule = true;
         }
     }
 
@@ -61,12 +64,20 @@ class GameSpawner : GameObject
 
     void SpawnPlayer1()
     {
-        SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
+        playerShip = SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
     }
 
     void SpawnPlayer2()
     {
         SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath) { sprite = "köttigbild" }, new(playArea.X / 2, 700), player2Controls);
+    }
+
+    void PlayerHealthCheck()
+    {
+        if(playerShip.health <= 0)
+        {
+            
+        }
     }
 
     public void SpawnStartingObjects()
