@@ -1,4 +1,4 @@
-class SpaceShip : PhysicalObject, IDamageable,IDrawable
+class SpaceShip : PhysicalObject, IDamageable,IDrawable, IFloatReturnable
 {
     public float moveSpeed;
     public float health;
@@ -12,6 +12,11 @@ class SpaceShip : PhysicalObject, IDamageable,IDrawable
     IShootable shootController;
     volatile bool Invincible = false;
     readonly Timer invincibiltyTimer;
+
+    public float GetFloat()
+    {
+        return health;
+    }
 
     SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
     {

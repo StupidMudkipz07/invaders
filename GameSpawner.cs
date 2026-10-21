@@ -20,7 +20,7 @@ class GameSpawner : GameObject
     volatile bool enemySpawnReady;
     bool enemySpawnTimerIsOnSchedule;
 
-    SpaceShip playerShip;
+    IFloatReturnable playerShipHealth;
     
 
     public GameSpawner(Vector2u playArea, int amountOfPlayers)
@@ -64,7 +64,7 @@ class GameSpawner : GameObject
 
     void SpawnPlayer1()
     {
-        playerShip = SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
+        playerShipHealth = SpaceShip.SpawnPlayer(new SpaceShipData(playerDataFilePath), new(playArea.X / 2, 700), player1Controls);
     }
 
     void SpawnPlayer2()
@@ -74,7 +74,7 @@ class GameSpawner : GameObject
 
     void PlayerHealthCheck()
     {
-        if(playerShip.health <= 0)
+        if(playerShipHealth.GetFloat() <= 0)
         {
             
         }
@@ -87,6 +87,7 @@ class GameSpawner : GameObject
         SpawnEnemy(archangelDataFilePath);
         // SpawnEnemy(seraphimDataFilePath);       
         // SpawnEnemy(virtueDataFilePath);
+        new GuiBar(playerShipHealth);
     }
 
     public override void Update(float deltaTime)
