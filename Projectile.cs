@@ -37,10 +37,7 @@ class Projectile : PhysicalObject, IDrawable
         Move(deltaTime, VectorMath.Normalize(direction) * moveSpeed);
     }
 
-    public override void Draw(RenderWindow window)
-    {
-        DrawObject(sprite, size, window, VectorMath.VectorToAngle(direction) + 90);
-    }
+
 
     public void DrawBåt(RenderWindow window)
     {

@@ -48,8 +48,5 @@ class GameStateHandler : GameObject
 
     }
 
-    public override void Draw(RenderWindow widnow)
-    {
-
-    }
+    
 }

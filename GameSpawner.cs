@@ -95,8 +95,5 @@ class GameSpawner : GameObject
         CheckEnemySpawn();
     }
 
-    public override void Draw(RenderWindow widnow)
-    {
 
-    }
 }

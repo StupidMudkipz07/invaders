@@ -44,11 +44,7 @@ class Button : GameObject, IClickable,IDrawable
         isHovered = false;
     }
 
-    public override void Draw(RenderWindow widnow)
-    {
-        widnow.Draw(GetHitbox());
-        widnow.Draw(text);
-    }
+
     
     public  void DrawBåt(RenderWindow widnow)
     {

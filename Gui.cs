@@ -1,4 +1,4 @@
-class Gui : GameObject
+class Gui : GameObject, IDrawable
 {
     SpaceShip player;
 
@@ -14,7 +14,7 @@ class Gui : GameObject
 
     }
 
-    public override void Draw(RenderWindow widnow)
+    public void DrawBåt(RenderWindow widnow)
     {
 
     }

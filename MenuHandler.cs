@@ -34,10 +34,7 @@ class MenuHandler : GameObject, IDrawable
         CheckButtons();
     }
 
-    public override void Draw(RenderWindow widnow)
-    {
-        mousePosition = Mouse.GetPosition(widnow);
-    }
+
 
     public void DrawBåt(RenderWindow widnow)
     {
