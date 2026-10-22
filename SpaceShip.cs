@@ -17,15 +17,15 @@ class SpaceShip : PhysicalObject, IDamageable, IDrawable, IFloatReturnable
         return health;
     }
 
-    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size)
+    SpaceShip(string spriteName, string tag, Vector2f position, Vector2f size, bool OutOfBoundsCheck)
     {
-        InitializeVariables(spriteName, position, size, tag);
+        InitializeVariables(spriteName, position, size, tag, OutOfBoundsCheck);
         invincibiltyTimer = new Timer(callback => Invincible = false, state: null, dueTime: Timeout.Infinite, period: Timeout.Infinite);
     }
 
     public static SpaceShip SpawnPlayer(SpaceShipData stats, Vector2f startPosition, ControlLayout controlLayout)
     {
-        SpaceShip player = new(stats.sprite, GlobalTags.Player, startPosition, stats.size)
+        SpaceShip player = new(stats.sprite, GlobalTags.Player, startPosition, stats.size, false)
         {
             health = stats.health,
             moveSpeed = stats.moveSpeed,
@@ -46,7 +46,7 @@ class SpaceShip : PhysicalObject, IDamageable, IDrawable, IFloatReturnable
     public static SpaceShip SpawnEnemy(SpaceShipData stats, Vector2f position)
     {                //                             lustig if sats👇👇👇
         Vector2f enemyDirection = new(Random.Shared.Next(2) == 0 ? -1 : 1, 1);
-        SpaceShip enemy = new(stats.sprite, GlobalTags.Enemy, position, stats.size)
+        SpaceShip enemy = new(stats.sprite, GlobalTags.Enemy, position, stats.size, true)
         {
             health = stats.health,
             moveSpeed = stats.moveSpeed,

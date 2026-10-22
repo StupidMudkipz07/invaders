@@ -22,7 +22,7 @@ class Projectile : PhysicalObject, IDrawable
     public Projectile(float moveSpeed, float damage, Vector2f position, Vector2f size, Vector2f Direction, string sprite, string targetTag)
     {
         direction = Direction;
-        InitializeVariables(sprite, position, size, GlobalTags.Neutral);
+        InitializeVariables(sprite, position, size, GlobalTags.Neutral, true);
         this.targetTag = targetTag;
         this.damage = damage;
         this.moveSpeed = moveSpeed;

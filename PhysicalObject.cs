@@ -1,4 +1,4 @@
-abstract class 
+abstract class
     PhysicalObject : GameObject
 {
     public Vector2f direction;
@@ -7,8 +7,9 @@ abstract class
     protected Sprite sprite;
 
     //should be called in constructor
-    protected void InitializeVariables(string spriteName, Vector2f position, Vector2f size, string tag)
+    protected void InitializeVariables(string spriteName, Vector2f position, Vector2f size, string tag, bool canMoveOffScreen)
     {
+        this.canMoveOffScreen = canMoveOffScreen;
         sprite = SpriteDrawer.GetStaticSprite(spriteName);
         this.position = position;
         this.size = size;
@@ -16,26 +17,34 @@ abstract class
         facingDirection = new(0, 0);
     }
 
+
+    bool canMoveOffScreen = true;
     protected void OutOfBoundsCheck(Vector2f velocity)
     {
         float borderMultiplier = 1.3f;
-
-        // tar bort objekt som är utanför skärman och kommer att åka iväg
-        if (position.X > (handler.PlayArea.X * borderMultiplier) + (size.X / 2) && velocity.X > 0)
+        if (canMoveOffScreen)
         {
-            remove = true;
+            // tar bort objekt som är utanför skärman och kommer att åka iväg
+            if (position.X > (handler.PlayArea.X * borderMultiplier) + (size.X / 2) && velocity.X > 0)
+            {
+                remove = true;
+            }
+            if (position.X < -(size.X / 2) && velocity.X < 0)
+            {
+                remove = true;
+            }
+            if (position.Y < -(size.Y / 2) && velocity.Y < 0)
+            {
+                remove = true;
+            }
+            if (position.Y > (handler.PlayArea.Y * borderMultiplier) + (size.Y / 2) && velocity.Y > 0)
+            {
+                remove = true;
+            }
         }
-        if (position.X < -(size.X / 2) && velocity.X < 0)
+        else
         {
-            remove = true;
-        }
-        if (position.Y < -(size.Y / 2) && velocity.Y < 0)
-        {
-            remove = true;
-        }
-        if (position.Y > (handler.PlayArea.Y * borderMultiplier) + (size.Y / 2) && velocity.Y > 0)
-        {
-            remove = true;
+            position = new(Math.Clamp(position.X, 0 + size.X / 2, handler.PlayArea.X - size.X / 2), Math.Clamp(position.Y, 0 + size.Y / 2, handler.PlayArea.Y - size.Y / 2));
         }
     }
 
