@@ -2,7 +2,6 @@
 global using SFML.Graphics;
 global using SFML.Window;
 global using SFML.System;
-global using System.Text;
 global using System.Text.Json;
 
 static class Program
