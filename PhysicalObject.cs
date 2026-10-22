@@ -17,8 +17,8 @@ abstract class
         facingDirection = new(0, 0);
     }
 
-
     bool canMoveOffScreen = true;
+    
     protected void OutOfBoundsCheck(Vector2f velocity)
     {
         float borderMultiplier = 1.3f;
@@ -55,18 +55,6 @@ abstract class
         position += finalVelocityCalc;
 
         if (VectorMath.Length(finalVelocityCalc) > 0) OutOfBoundsCheck(velocity);
-    }
-
-    public bool IsInView()
-    {
-        if (position.X < -size.X ||
-        position.X > handler.PlayArea.X + size.X ||
-        position.Y < -size.Y ||
-        position.X > handler.PlayArea.Y + size.Y)
-        {
-            return false;
-        }
-        else return true;
     }
 
     public void DebugDraw(RenderWindow window)

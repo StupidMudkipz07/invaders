@@ -23,7 +23,7 @@ class Explosion : GameObject, IDrawable
     public override void Update(float deltaTime)
     {
         boom.Radius += deltaTime * explosionMultipler;
-
+            
         byte alpha = (byte)MathF.Max(0, boom.FillColor.A - 255 * deltaTime);
         boom.FillColor = new Color(boom.FillColor.R, boom.FillColor.G, boom.FillColor.B, alpha);
 

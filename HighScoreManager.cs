@@ -2,9 +2,6 @@ class HighScoreManager : GameObject, IDrawable
 {
     public static Dictionary<string, int> LoadHighScores()
     {
-        if (!File.Exists(HighScoreFilePath))
-            return new();
-
         string json = File.ReadAllText(HighScoreFilePath);
         return JsonSerializer.Deserialize<Dictionary<string, int>>(json) ?? new();
     }
@@ -14,13 +11,13 @@ class HighScoreManager : GameObject, IDrawable
         Dictionary<string, int> highScores = LoadHighScores();
 
         //sorterar listan efter storlek
-        List<KeyValuePair<string, int>> orderedHighScores = highScores.OrderByDescending(score => score.Value).ToList();
+        List<KeyValuePair<string, int>> sortedHighScores = highScores.OrderByDescending(score => score.Value).ToList();
 
         string Text = "";
 
-        for (int i = 0; i < orderedHighScores.Count; i++)
+        for (int i = 0; i < sortedHighScores.Count; i++)
         {
-            Text += $"{i + 1} Name: {orderedHighScores[i].Key}     Score: {orderedHighScores[i].Value}\n";
+            Text += $"{i + 1} Name: {sortedHighScores[i].Key}     Score: {sortedHighScores[i].Value}\n";
         }
 
         return Text;
@@ -63,10 +60,7 @@ class HighScoreManager : GameObject, IDrawable
         Dictionary<string, int> highScores = LoadHighScores();
         highScores[playerName] = (int)MathF.Round(highScore);
 
-        Directory.CreateDirectory(Path.GetDirectoryName(HighScoreFilePath)!);
-        string json = JsonSerializer.Serialize(highScores, new JsonSerializerOptions { WriteIndented = true });
-
-        File.WriteAllText(HighScoreFilePath, json);
+        File.WriteAllText(HighScoreFilePath, JsonSerializer.Serialize(highScores, new JsonSerializerOptions { WriteIndented = true }));
         System.Console.WriteLine(GetHighScoresAsString());
     }
 
@@ -107,7 +101,7 @@ class HighScoreManager : GameObject, IDrawable
     public override void Update(float deltaTime)
     {
         highScoreText.DisplayedString = playerName;
-        
+
         if (doneWriting)
         {
             instructions.DisplayedString = "Saved HighScore!!! ;>";
