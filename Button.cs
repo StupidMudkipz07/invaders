@@ -46,7 +46,7 @@ class Button : GameObject, IClickable,IDrawable
 
 
     
-    public  void DrawBåt(RenderWindow widnow)
+    public  void Draw(RenderWindow widnow)
     {
         widnow.Draw(GetHitbox());
         widnow.Draw(text);

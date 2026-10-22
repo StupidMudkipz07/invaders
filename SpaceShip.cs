@@ -1,10 +1,9 @@
-class SpaceShip : PhysicalObject, IDamageable,IDrawable, IFloatReturnable
+class SpaceShip : PhysicalObject, IDamageable, IDrawable, IFloatReturnable
 {
     public float moveSpeed;
     public float health;
     public string OpposingTag;
 
-    // lägg till de här 2 till spaceShipdata någon gång
     int CollisionInvincibilityTime;
     int damageInvincibilityTime;
 
@@ -73,8 +72,13 @@ class SpaceShip : PhysicalObject, IDamageable,IDrawable, IFloatReturnable
     public void OnTakeDamage(float damage)
     {
         if (!Invincible) health -= damage;
-        if (damageInvincibilityTime > 0) StartInvincibility(damageInvincibilityTime);
-        if (health <= 0) remove = true;
+        if (damageInvincibilityTime > 0 && !Invincible) StartInvincibility(damageInvincibilityTime);
+        if (health <= 0)
+        {
+            remove = true;
+            new Explosion(position, size);
+            AudioManager.PlayAudio("vine-boom");
+        }
     }
 
     public override void Update(float deltaTime)
@@ -102,7 +106,7 @@ class SpaceShip : PhysicalObject, IDamageable,IDrawable, IFloatReturnable
 
 
 
-    public void DrawBåt(RenderWindow window)
+    public void Draw(RenderWindow window)
     {
         if (Invincible)
         {

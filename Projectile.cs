@@ -39,7 +39,7 @@ class Projectile : PhysicalObject, IDrawable
 
 
 
-    public void DrawBåt(RenderWindow window)
+    public void Draw(RenderWindow window)
     {
         DrawObject(sprite, size, window, VectorMath.VectorToAngle(direction) + 90);
     }

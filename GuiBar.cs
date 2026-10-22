@@ -1,37 +1,51 @@
 class GuiBar : GameObject, IDrawable
 {
-    SpaceShip player;
-
     RectangleShape bar;
     RectangleShape behindBar;
-    IFloatReturnable floatReturnable;
-    float sizeMultiplier = 100;
+    IFloatReturnable value;
 
-    public GuiBar(IFloatReturnable floatReturnable)
+    Color barColor = Color.Red;
+    Color behindColor = Color.Black;
+    Color outlineColor = Color.Cyan;
+
+    public GuiBar(IFloatReturnable floatReturnable, Vector2f position, Vector2f size)
     {
-        this.floatReturnable = floatReturnable;
+        value = floatReturnable;
+        this.position = position;
+        this.size = size;
+
+        MakeBehindBar();
+    }
+
+    void MakeBar()
+    {
         bar = new RectangleShape()
         {
-            Size = new(floatReturnable.GetFloat()*sizeMultiplier, 40),
-            Position = new(20, 20),
-            FillColor = Color.Red,
+            Size = new(value.GetFloat() * size.X, size.Y),
+            Position = position,
+            FillColor = barColor,
         };
+
+    }
+    void MakeBehindBar()
+    {
         behindBar = new RectangleShape()
         {
-            Size = new(floatReturnable.GetFloat()*sizeMultiplier, 40),
-            Position = new(20, 20),
-            FillColor = Color.Black,
+            Size = new(value.GetFloat() * size.X, size.Y),
+            Position = position,
+            FillColor = behindColor,
             OutlineThickness = 3,
-            OutlineColor = Color.Blue,
+            OutlineColor = outlineColor,
         };
     }
+
 
     public override void Update(float deltaTime)
     {
-        bar.Size = new(floatReturnable.GetFloat() *sizeMultiplier, 40);
+        MakeBar();
     }
 
-    public void DrawBåt(RenderWindow widnow)
+    public void Draw(RenderWindow widnow)
     {
         widnow.Draw(behindBar);
         widnow.Draw(bar);

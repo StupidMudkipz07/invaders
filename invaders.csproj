@@ -26,6 +26,10 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</EmbeddedResource>
 
+		<None Remove="music/*.wav" />
+		<EmbeddedResource Include="music/*.wav">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</EmbeddedResource>
   </ItemGroup>
 
 </Project>

@@ -55,7 +55,7 @@ class GameObjectHandler : IGameObjectHandleable
             if (gameObjects[i] is IDrawable)
             {
                 var slop = gameObjects[i] as IDrawable;
-                slop.DrawBåt(window);
+                slop.Draw(window);
             }
 
             if (gameObjects[i] is PhysicalObject)

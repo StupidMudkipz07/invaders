@@ -1,4 +1,4 @@
-class GameSpawner : GameObject
+class InGameManager : GameObject, IDrawable, IFloatReturnable
 {
     const string playerDataFilePath = "data/playerData.json";
     const string seraphimDataFilePath = "data/seraphimData.json";
@@ -9,8 +9,15 @@ class GameSpawner : GameObject
     ControlLayout player2Controls = new(Keyboard.Key.Up, Keyboard.Key.Down, Keyboard.Key.Left, Keyboard.Key.Right, Keyboard.Key.RControl);
     int amountOfPlayers;
 
+    float score = 0;
+    Text Score;
+
+    public float GetFloat()
+    {
+        return score;
+    }
+
     float timeThatHasPassedInSeconds;
-    float enemySpawnCooldownInSeconds;
     float StartingSpawnTime = 7;
     float lowestSpawnTime = 1;
     float amountOfChange = 50;
@@ -21,14 +28,25 @@ class GameSpawner : GameObject
     bool enemySpawnTimerIsOnSchedule;
 
     IFloatReturnable playerShipHealth;
-    
+    public event EventHandler OnGameEnd;
 
-    public GameSpawner(Vector2u playArea, int amountOfPlayers)
+    public InGameManager(Vector2u playArea, int amountOfPlayers)
     {
         enemySpawnTimer = new Timer(_ => enemySpawnReady = true, state: null, dueTime: Timeout.Infinite, period: Timeout.Infinite);
         this.playArea = playArea;
         SpawnStartingObjects();
         this.amountOfPlayers = amountOfPlayers;
+        Score = new()
+        {
+            CharacterSize = 30,
+            DisplayedString = $"Score: {MathF.Round(score)}",
+            Position = new(20, playArea.Y - 50),
+            Font = new Font("fonts/future.ttf"),
+            FillColor = Color.Black,
+            OutlineColor = Color.White,
+            OutlineThickness = 2
+        };
+
     }
 
     float GetEnemyRespawnTime(float time)
@@ -74,9 +92,9 @@ class GameSpawner : GameObject
 
     void PlayerHealthCheck()
     {
-        if(playerShipHealth.GetFloat() <= 0)
+        if (playerShipHealth.GetFloat() <= 0)
         {
-            
+            OnGameEnd.Invoke(this, EventArgs.Empty);
         }
     }
 
@@ -87,14 +105,20 @@ class GameSpawner : GameObject
         SpawnEnemy(archangelDataFilePath);
         // SpawnEnemy(seraphimDataFilePath);       
         // SpawnEnemy(virtueDataFilePath);
-        new GuiBar(playerShipHealth);
+        new GuiBar(playerShipHealth, new(40, 40), new(50, 50));
     }
 
     public override void Update(float deltaTime)
     {
         timeThatHasPassedInSeconds += deltaTime;
         CheckEnemySpawn();
+        PlayerHealthCheck();
+        score += deltaTime;
     }
 
-
+    public void Draw(RenderWindow widnow)
+    {
+        Score.DisplayedString = $"Score: {MathF.Round(score)}";
+        widnow.Draw(Score);
+    }
 }

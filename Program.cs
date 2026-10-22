@@ -2,7 +2,7 @@
 global using SFML.Graphics;
 global using SFML.Window;
 global using SFML.System;
-global using System.Text.Json.Serialization;
+global using System.Text;
 global using System.Text.Json;
 
 static class Program
@@ -18,6 +18,7 @@ static class Program
     public static void Main()
     {
         SpriteDrawer.InitilizeAllSprites();
+        AudioManager.Initialize();
 
         using (RenderWindow window = new RenderWindow(new VideoMode(WindowSize.X, WindowSize.Y), windowName))
         {
@@ -25,7 +26,7 @@ static class Program
 
             window.SetFramerateLimit(60);
             window.Closed += (o, e) => window.Close();
-            window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code); //input debug
+            //window.KeyPressed += (sender, e) => Console.WriteLine("Key pressed " + e.Code); //input debug
 
             objectHandler = new GameObjectHandler(WindowSize);
             Console.WriteLine(WindowSize);
@@ -36,11 +37,11 @@ static class Program
                 float deltaTime = clock.Restart().AsSeconds();
                 window.Clear(clearColor);
 
-                foreach (Object o in objectHandler.GetAllGameObjects())
-                {
-                    System.Console.Write(o + ", ");
-                }
-                System.Console.WriteLine();
+                // foreach (Object o in objectHandler.GetAllGameObjects())
+                // {
+                //     System.Console.Write(o + ", ");
+                // }
+                // System.Console.WriteLine();
 
                 objectHandler.UpdateGameObjects(deltaTime);
                 objectHandler.DrawGameObjects(window);

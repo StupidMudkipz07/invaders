@@ -22,7 +22,7 @@ abstract class GameObject
     //public abstract void Draw(RenderWindow widnow);
 
     protected class GlobalTags
-    { 
+    {
         public const string Player = "1";
 
         public const string Enemy = "2";

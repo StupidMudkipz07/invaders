@@ -36,7 +36,7 @@ class MenuHandler : GameObject, IDrawable
 
 
 
-    public void DrawBåt(RenderWindow widnow)
+    public void Draw(RenderWindow widnow)
     {
         mousePosition = Mouse.GetPosition(widnow);
     }
