@@ -150,19 +150,6 @@ abstract class
         return IterateHitboxList(CollisionList);
     }
 
-    //returnar objektet som kollideras med och matcher någon avtaggarna
-    public GameObject? GetCollidingObject(string[] targetTags)
-    {
-        List<PhysicalObject> CollisionList = new();
-
-        foreach (PhysicalObject slop in handler.GetAllGameObjects().OfType<PhysicalObject>())
-        {
-            if (targetTags.Contains(slop.tag))
-                CollisionList.Add(slop);
-        }
-        return IterateHitboxList(CollisionList);
-    }
-
     public bool CollidingWithTag(string targetTag)
     {
         PhysicalObject? gameObject = GetCollidingObject(targetTag);
