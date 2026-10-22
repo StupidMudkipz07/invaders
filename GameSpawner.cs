@@ -104,7 +104,7 @@ class InGameManager : GameObject, IDrawable, IFloatReturnable
         // SpawnPlayer2();
         SpawnEnemy(archangelDataFilePath);
         // SpawnEnemy(seraphimDataFilePath);       
-        // SpawnEnemy(virtueDataFilePath);
+        SpawnEnemy(virtueDataFilePath);
         new GuiBar(playerShipHealth, new(40, 40), new(50, 50));
     }
 

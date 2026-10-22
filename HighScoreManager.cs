@@ -1,6 +1,6 @@
 class HighScoreManager : GameObject, IDrawable
 {
-    static Dictionary<string, int> LoadHighScores()
+    public static Dictionary<string, int> LoadHighScores()
     {
         if (!File.Exists(HighScoreFilePath))
             return new();
@@ -9,7 +9,7 @@ class HighScoreManager : GameObject, IDrawable
         return JsonSerializer.Deserialize<Dictionary<string, int>>(json) ?? new();
     }
 
-    static string GetHighScoresAsString()
+    public static string GetHighScoresAsString()
     {
         Dictionary<string, int> highScores = LoadHighScores();
 
@@ -20,7 +20,6 @@ class HighScoreManager : GameObject, IDrawable
 
         for (int i = 0; i < orderedHighScores.Count; i++)
         {
-
             Text += $"{i + 1} Name: {orderedHighScores[i].Key}     Score: {orderedHighScores[i].Value}\n";
         }
 
@@ -107,8 +106,8 @@ class HighScoreManager : GameObject, IDrawable
     }
     public override void Update(float deltaTime)
     {
-
         highScoreText.DisplayedString = playerName;
+        
         if (doneWriting)
         {
             instructions.DisplayedString = "Saved HighScore!!! ;>";

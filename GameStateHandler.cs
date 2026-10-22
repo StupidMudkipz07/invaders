@@ -25,7 +25,7 @@ class GameStateHandler : GameObject
         {
             text = new Text()
             {
-                DisplayedString = "PLAY!",
+                DisplayedString = "New game",
                 Position = new(220, 200),
                 Font = new Font("fonts/saturno.ttf"),
                 FillColor = Color.Red,
@@ -39,7 +39,7 @@ class GameStateHandler : GameObject
         {
             text = new Text()
             {
-                DisplayedString = "EXIT!",
+                DisplayedString = "Quit",
                 Position = new(720, 200),
                 Font = new Font("fonts/future.ttf"),
                 FillColor = Color.Blue,
@@ -49,11 +49,11 @@ class GameStateHandler : GameObject
             }
         };
 
-         new Button(new(350, 550), new(450, 200), () => Environment.Exit(0), Color.Magenta)
+        new Button(new(350, 550), new(450, 200), StartHighScoreMenu, Color.Magenta)
         {
             text = new Text()
             {
-                DisplayedString = "view highscores",
+                DisplayedString = "High scores",
                 Position = new(350, 570),
                 Font = new Font("fonts/future.ttf"),
                 FillColor = Color.Black,
@@ -82,9 +82,9 @@ class GameStateHandler : GameObject
     {
         ClearList();
         new HighScoreManager(GameScore);
-        
+
         new MenuHandler();
-        
+
         new Button(new(handler.PlayArea.X / 2 - 100, handler.PlayArea.Y / 2 - 100), new(230, 130), StartGame, Color.Cyan)
         {
             text = new Text()
@@ -110,6 +110,39 @@ class GameStateHandler : GameObject
                 OutlineColor = Color.Black,
                 CharacterSize = 35,
                 OutlineThickness = 2
+            }
+        };
+    }
+
+    void StartHighScoreMenu()
+    {
+        ClearList();
+        new MenuHandler();
+        new Button(new(handler.PlayArea.X / 2 - 120, handler.PlayArea.Y / 2 + 300), new(270, 130), StartMainMenu, Color.Black)
+        {
+            text = new Text()
+            {
+                DisplayedString = "Main menu",
+                Position = new(handler.PlayArea.X / 2 - 100, handler.PlayArea.Y / 2 + 300),
+                Font = new Font("fonts/saturno.ttf"),
+                FillColor = Color.Green,
+                OutlineColor = Color.White,
+                CharacterSize = 35,
+                OutlineThickness = 2
+            }
+        };
+
+        new Button(new(200, handler.PlayArea.Y / 2 - 300), new(700, 40), () => AudioManager.PlayAudio("metal"), Color.Green)
+        {
+            text = new Text()
+            {
+                DisplayedString = HighScoreManager.GetHighScoresAsString(),
+                Position = new(200, handler.PlayArea.Y / 2 - 300),
+                Font = new Font("fonts/future.ttf"),
+                FillColor = Color.Cyan,
+                OutlineColor = Color.Black,
+                CharacterSize = 30,
+                OutlineThickness = 1
             }
         };
     }
